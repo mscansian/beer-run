@@ -1,0 +1,15 @@
+<strings>
+    <string id="AppName" scope="glance">Beer Counter</string>
+    <string id="Beer" scope="glance">beer</string>
+    <string id="Beers" scope="glance">beers</string>
+    <string id="Hint">START +1</string>
+    <string id="LimitOf">limit $1$</string>
+    <string id="LastJustNow" scope="glance">last one just now</string>
+    <string id="LastMinutes" scope="glance">last one $1$ min ago</string>
+    <string id="LastHours" scope="glance">last one $1$h$2$ ago</string>
+    <string id="Undo">Undo last beer</string>
+    <string id="Limit">Limit</string>
+    <string id="NoLimit">No limit</string>
+    <string id="Reset">Reset count</string>
+    <string id="ResetConfirm">Reset to 0?</string>
+</strings>

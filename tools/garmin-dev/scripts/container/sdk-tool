@@ -1,0 +1,16 @@
+#!/bin/bash
+# RUNS IN: container (baked as /usr/local/bin/sdk-tool; monkeyc, monkeydo and
+# simulator are symlinks to it)
+#
+# docker exec bypasses login shells, so the active SDK's bin dir is not on
+# PATH there; resolve it and exec the real tool named by our invocation name.
+# Login shells get the real SDK bin first on PATH (profile.d) and never
+# reach these.
+set -euo pipefail
+
+SDK_BIN="$("$HOME/go/bin/connect-iq-sdk-manager-cli" sdk current-path --bin 2>/dev/null)" \
+    && [ -d "$SDK_BIN" ] || {
+    echo "error: no active Connect IQ SDK in this container (run garmin-setup)" >&2
+    exit 1
+}
+exec "$SDK_BIN/$(basename "$0")" "$@"

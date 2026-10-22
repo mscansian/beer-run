@@ -1,0 +1,57 @@
+#!/bin/bash
+# RUNS ON: host
+#
+# Transparent container shim. The sibling symlinks (monkeyc, monkeydo,
+# simulator, connect-iq-sdk-manager-cli, auto-shot.sh, ...) all point here;
+# the invoked name is executed inside the running garmin-dev container whose
+# project mount covers the current directory, with the same cwd and argv.
+#
+# Fails loudly if no container covers $PWD. Set GARMIN_DEV_AUTOSTART=1 to
+# instead auto-run `garmin-dev.sh up` for the nearest ancestor directory
+# containing a manifest.xml.
+set -euo pipefail
+
+TOOL="$(basename "$0")"
+SHIM_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+LAUNCHER="$SHIM_DIR/../scripts/host/garmin-dev.sh"
+
+if [ "$TOOL" = "garmin-shim" ]; then
+    echo "usage: invoke via a tool symlink (monkeyc, monkeydo, ...), not directly" >&2
+    exit 2
+fi
+
+find_container() {
+    CONTAINER=""
+    local name proj
+    while IFS='|' read -r name proj; do
+        [ -n "$proj" ] || continue
+        case "$PWD/" in
+            "$proj"/*) CONTAINER="$name" ;;
+        esac
+    done < <(docker ps --filter label=garmin-dev.project \
+                 --format '{{.Names}}|{{.Label "garmin-dev.project"}}')
+}
+
+find_container
+if [ -z "$CONTAINER" ]; then
+    if [ "${GARMIN_DEV_AUTOSTART:-}" = 1 ]; then
+        d="$PWD"
+        while [ "$d" != / ] && [ ! -f "$d/manifest.xml" ]; do d="$(dirname "$d")"; done
+        if [ ! -f "$d/manifest.xml" ]; then
+            echo "error: GARMIN_DEV_AUTOSTART=1 but no manifest.xml in any ancestor of $PWD" >&2
+            exit 1
+        fi
+        "$LAUNCHER" up "$d" >&2
+        find_container
+    fi
+fi
+if [ -z "$CONTAINER" ]; then
+    echo "error: no running garmin-dev container covers $PWD" >&2
+    echo "start one with: $LAUNCHER up [project]" >&2
+    echo "(or set GARMIN_DEV_AUTOSTART=1 to start it automatically)" >&2
+    exit 1
+fi
+
+TTY_ARGS=()
+[ -t 0 ] && [ -t 1 ] && TTY_ARGS=(-t)
+exec docker exec -i "${TTY_ARGS[@]}" -w "$PWD" "$CONTAINER" "$TOOL" "$@"
