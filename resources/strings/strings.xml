@@ -7,9 +7,28 @@
     <string id="LastJustNow" scope="glance">last one just now</string>
     <string id="LastMinutes" scope="glance">last one $1$ min ago</string>
     <string id="LastHours" scope="glance">last one $1$h$2$ ago</string>
+
     <string id="Undo">Undo last beer</string>
+    <string id="EndSession">End session</string>
+    <string id="EndConfirm">End and save this session?</string>
     <string id="Limit">Limit</string>
     <string id="NoLimit">No limit</string>
-    <string id="Reset">Reset count</string>
-    <string id="ResetConfirm">Reset to 0?</string>
+    <string id="Size">Size</string>
+    <string id="SizeOff">Off</string>
+    <string id="SizeSmall">Small</string>
+    <string id="SizeCan">Can</string>
+    <string id="SizePint">Pint</string>
+    <string id="SizeBottle">Bottle</string>
+    <string id="Discard">Discard session</string>
+    <string id="DiscardConfirm">Discard without saving?</string>
+
+    <string id="Stats">STATS</string>
+    <string id="StatSession">Session</string>
+    <string id="StatGap">One every</string>
+    <string id="StatPace">Pace</string>
+    <string id="StatVolume">Volume</string>
+    <string id="StatPerHour">Per hour</string>
+
+    <string id="History">HISTORY</string>
+    <string id="HistoryEmpty">No sessions yet</string>
 </strings>

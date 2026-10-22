@@ -1,0 +1,58 @@
+import Toybox.Application;
+import Toybox.Lang;
+import Toybox.WatchUi;
+
+// The size in ml that each new beer is counted as, or null when size tracking
+// is off.
+class BeerSize {
+    static const OPTIONS = [330, 350, 473, 600] as Array<Number>;
+
+    private const STORAGE_KEY = "size";
+
+    private var _ml as Number?;
+
+    function initialize() {
+        _ml = Application.Storage.getValue(STORAGE_KEY) as Number?;
+    }
+
+    function value() as Number? {
+        return _ml;
+    }
+
+    function set(ml as Number?) as Void {
+        _ml = ml;
+        if (ml == null) {
+            Application.Storage.deleteValue(STORAGE_KEY);
+        } else {
+            Application.Storage.setValue(STORAGE_KEY, ml);
+        }
+    }
+}
+
+// The short name of a size, e.g. "Pint".
+function sizeName(ml as Number) as String {
+    switch (ml) {
+        case 330:
+            return WatchUi.loadResource(Rez.Strings.SizeSmall) as String;
+        case 350:
+            return WatchUi.loadResource(Rez.Strings.SizeCan) as String;
+        case 473:
+            return WatchUi.loadResource(Rez.Strings.SizePint) as String;
+        case 600:
+            return WatchUi.loadResource(Rez.Strings.SizeBottle) as String;
+    }
+    return ml + " ml";
+}
+
+// The menu label of a size, e.g. "Pint 473 ml", or "Off".
+function sizeLabel(ml as Number?) as String {
+    if (ml == null) {
+        return WatchUi.loadResource(Rez.Strings.SizeOff) as String;
+    }
+    return sizeName(ml) + " " + ml + " ml";
+}
+
+// A volume in litres with one decimal, e.g. "1.9 L".
+function litresText(ml as Number) as String {
+    return (ml / 1000.0).format("%.1f") + " L";
+}
