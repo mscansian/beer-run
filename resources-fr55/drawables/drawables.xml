@@ -1,0 +1,8 @@
+<!-- The Forerunner 55 draws menus on white, so its menu icons are black. -->
+<drawables>
+    <bitmap id="MenuUndo" filename="menu_undo.png"/>
+    <bitmap id="MenuEnd" filename="menu_end.png"/>
+    <bitmap id="MenuSize" filename="menu_size.png"/>
+    <bitmap id="MenuGoal" filename="menu_goal.png"/>
+    <bitmap id="MenuDiscard" filename="menu_discard.png"/>
+</drawables>

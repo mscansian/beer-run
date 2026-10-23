@@ -1,6 +1,6 @@
 # Beer Counter
 
-A Connect IQ watch app for the Garmin Forerunner 955 / 955 Solar that counts the beers in a drinking session.
+A Connect IQ watch app for the Garmin Forerunner 955 / 955 Solar and Forerunner 55 that counts the beers in a drinking session.
 
 - Press START (or double-tap the screen) to add a beer. The watch buzzes, and the screen shows how long ago the last one was.
 - UP and DOWN move through three pages, which loop: the counter, stats for the current session laid out like a running app (a live timer, litres, beers, and the pace in time per litre), and the history of past sessions.
@@ -8,7 +8,7 @@ A Connect IQ watch app for the Garmin Forerunner 955 / 955 Solar that counts the
 - A session also ends by itself: after 8 hours without a beer, the next one starts a new session.
 - The goal is a scroll wheel from 1 to 30. It starts at "No goal". With a goal set, a ring around the edge fills up as you drink and turns red when you go over.
 - Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml or bottle 600 ml. It starts as a pint.
-- The glance shows the count, the time since the last beer and, with a goal set, a progress bar. Select the glance to open the app.
+- The glance (Forerunner 955 only) shows the count, the time since the last beer and, with a goal set, a progress bar. Select the glance to open the app.
 - Everything is saved on the watch, so closing the app does not lose it.
 
 ## Quickstart
@@ -20,7 +20,7 @@ First time only:
 ```bash
 make image   # build the toolchain image
 make login   # accept the SDK license and sign in to Garmin in the browser
-make sdk     # download the SDK and the fr955 device files
+make sdk     # download the SDK and the device files
 ```
 
 `make login` saves a token that renews itself. Run it again only if `make sdk` fails with a login error.

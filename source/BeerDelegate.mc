@@ -109,7 +109,7 @@ class BeerMenu {
     private function item(label as ResourceId, subLabel as String?, id as Symbol, icon as ResourceId)
         as WatchUi.IconMenuItem {
         return new WatchUi.IconMenuItem(WatchUi.loadResource(label) as String, subLabel, id,
-            new MenuIcon(icon), null);
+            new MenuIcon(icon), {:alignment => WatchUi.MenuItem.MENU_ITEM_LABEL_ALIGN_LEFT});
     }
 }
 
