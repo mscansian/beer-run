@@ -51,24 +51,24 @@
 
     <string id="DebtBlock1">Eine Runde um den Block</string>
     <string id="DebtBlock2">Ein Spaziergang reicht</string>
-    <string id="DebtBlock3">Nicht mal zum Warmlaufen</string>
+    <string id="DebtBlock3">Nicht mal Warmlaufen</string>
     <string id="DebtBlock4">Kurz die Beine lockern</string>
     <string id="DebtBlock5">Dauert einen Song</string>
 
-    <string id="Debt5k1">Ein Fünfer, dann passt's</string>
+    <string id="Debt5k1">Ein Fünfer reicht</string>
     <string id="Debt5k2">Samstags zum parkrun</string>
     <string id="Debt5k3">Ein lockerer Dauerlauf</string>
     <string id="Debt5k4">Auslaufen inklusive</string>
     <string id="Debt5k5">Kurz mal fünf Kilometer</string>
 
     <string id="Debt10k1">Ein Zehner ist fällig</string>
-    <string id="Debt10k2">Morgen gibt's Intervalle</string>
-    <string id="Debt10k3">Zweistellig im Minus</string>
+    <string id="Debt10k2">Morgen: Intervalle</string>
+    <string id="Debt10k3">Zehner oder nix</string>
     <string id="Debt10k4">Morgen früh raus</string>
-    <string id="Debt10k5">Mit einem Zehner abbezahlt</string>
+    <string id="Debt10k5">Ein Zehner zahlt's ab</string>
 
-    <string id="DebtHalf1">Das ist ein Halbmarathon</string>
-    <string id="DebtHalf2">Der lange Lauf am Sonntag</string>
+    <string id="DebtHalf1">Ein Halbmarathon</string>
+    <string id="DebtHalf2">Langer Sonntagslauf</string>
     <string id="DebtHalf3">Gel einpacken</string>
     <string id="DebtHalf4">Halbmarathon. Aua.</string>
     <string id="DebtHalf5">Lang und langsam</string>
@@ -76,12 +76,12 @@
     <string id="DebtMarathon1">Ein ganzer Marathon</string>
     <string id="DebtMarathon2">Der Mann mit dem Hammer</string>
     <string id="DebtMarathon3">$1$ Gründe aufzuhören</string>
-    <string id="DebtMarathon4">Zeit für die Marathon-Anmeldung</string>
+    <string id="DebtMarathon4">Marathon anmelden!</string>
     <string id="DebtMarathon5">Carboloading: erledigt</string>
 
     <string id="DebtUltra1">Ultra. Viel Spaß dabei.</string>
     <string id="DebtUltra2">Stirnlampe einpacken</string>
-    <string id="DebtUltra3">Verpflegung nicht vergessen</string>
-    <string id="DebtUltra4">Mach 'nen Spendenlauf draus</string>
-    <string id="DebtUltra5">Wir sehen uns nächste Woche</string>
+    <string id="DebtUltra3">Verpflegung einpacken</string>
+    <string id="DebtUltra4">Ab zum Spendenlauf</string>
+    <string id="DebtUltra5">Bis nächste Woche</string>
 </strings>

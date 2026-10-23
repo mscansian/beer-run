@@ -58,12 +58,12 @@
     <string id="Debt5k1">Um 5K e tá pago</string>
     <string id="Debt5k2">Corridinha no parque</string>
     <string id="Debt5k3">Um trote de leve</string>
-    <string id="Debt5k4">Com desaquecimento e tudo</string>
+    <string id="Debt5k4">Desaquecimento incluso</string>
     <string id="Debt5k5">Cinquinho rápido</string>
 
     <string id="Debt10k1">Tem 10K no cardápio</string>
     <string id="Debt10k2">Amanhã tem tiro</string>
-    <string id="Debt10k3">A conta chegou em dois dígitos</string>
+    <string id="Debt10k3">10K ou nada</string>
     <string id="Debt10k4">Amanhã é acordar cedo</string>
     <string id="Debt10k5">Só um 10K paga essa</string>
 
@@ -76,12 +76,12 @@
     <string id="DebtMarathon1">Deu uma maratona</string>
     <string id="DebtMarathon2">Bem-vindo ao muro</string>
     <string id="DebtMarathon3">$1$ motivos pra parar</string>
-    <string id="DebtMarathon4">Bora se inscrever numa maratona</string>
-    <string id="DebtMarathon5">Pelo menos o carbo tá em dia</string>
+    <string id="DebtMarathon4">Bora correr uma 42K</string>
+    <string id="DebtMarathon5">O carbo tá em dia</string>
 
     <string id="DebtUltra1">Ultra. Boa sorte.</string>
-    <string id="DebtUltra2">Prepara a lanterna de cabeça</string>
+    <string id="DebtUltra2">Leva a lanterna</string>
     <string id="DebtUltra3">Leva água. Muita água.</string>
-    <string id="DebtUltra4">Chama de corrida solidária</string>
+    <string id="DebtUltra4">Vira corrida solidária</string>
     <string id="DebtUltra5">Te vejo semana que vem</string>
 </strings>
