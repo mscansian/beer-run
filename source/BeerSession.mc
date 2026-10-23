@@ -52,6 +52,16 @@ class BeerSession {
         return new Time.Moment(_beers[_beers.size() - 1][0]);
     }
 
+    // How long each finished beer took, oldest first: the time from one beer
+    // to the next. The newest beer is still in progress, so it has no lap yet.
+    function lapSeconds() as Array<Number> {
+        var laps = [] as Array<Number>;
+        for (var i = 1; i < _beers.size(); i++) {
+            laps.add(_beers[i][0] - _beers[i - 1][0]);
+        }
+        return laps;
+    }
+
     function totalMl() as Number {
         var total = 0;
         for (var i = 0; i < _beers.size(); i++) {

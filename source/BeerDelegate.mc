@@ -6,14 +6,12 @@ import Toybox.Time;
 import Toybox.WatchUi;
 
 // START (or a double tap) adds a beer. DOWN and UP move through the pages: counter,
-// stats, history, and around again. MENU (hold UP) opens the menu from any
-// page.
+// stats, splits, and around again. MENU (hold UP) opens the menu from any page.
 class BeerDelegate extends WatchUi.BehaviorDelegate {
     // The longest gap between two taps that still counts as a double tap.
     private const DOUBLE_TAP_MS = 400;
 
     private var _session as BeerSession;
-    private var _history as BeerHistory;
     private var _size as BeerSize;
     private var _menu as BeerMenu;
     // When the last single tap happened, in System.getTimer() milliseconds.
@@ -22,9 +20,8 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
     function initialize(session as BeerSession, history as BeerHistory, goal as BeerGoal, size as BeerSize) {
         BehaviorDelegate.initialize();
         _session = session;
-        _history = history;
         _size = size;
-        _menu = new BeerMenu(session, goal, size);
+        _menu = new BeerMenu(session, history, goal, size);
     }
 
     function onSelect() as Boolean {
@@ -66,18 +63,16 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onNextPage() as Boolean {
-        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_history, _menu), WatchUi.SLIDE_UP);
+        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu), WatchUi.SLIDE_UP);
         return true;
     }
 
-    // The pages loop, so UP from the counter wraps around to the end of the
-    // history. Stats goes on the stack under it, so UP keeps going backwards
-    // through the pages to the counter.
+    // The pages loop, so UP from the counter wraps around to the splits. Stats
+    // goes on the stack under it, so UP keeps going backwards through the
+    // pages to the counter.
     function onPreviousPage() as Boolean {
-        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_history, _menu), WatchUi.SLIDE_IMMEDIATE);
-        var history = new HistoryView(_history);
-        history.showLastPage();
-        WatchUi.pushView(history, new HistoryDelegate(history, _menu), WatchUi.SLIDE_DOWN);
+        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu), WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_menu), WatchUi.SLIDE_DOWN);
         return true;
     }
 
@@ -95,15 +90,17 @@ function goalLabel(goal as Number?) as String {
     return goal + " " + WatchUi.loadResource(goal == 1 ? Rez.Strings.Beer : Rez.Strings.Beers) as String;
 }
 
-// The menu: undo, end session, size, goal and discard. Every page opens it,
-// and closing it goes back to that page.
+// The menu: undo, finish, history, size, goal and discard. Every page opens
+// it, and closing it goes back to that page.
 class BeerMenu {
     private var _session as BeerSession;
+    private var _history as BeerHistory;
     private var _goal as BeerGoal;
     private var _size as BeerSize;
 
-    function initialize(session as BeerSession, goal as BeerGoal, size as BeerSize) {
+    function initialize(session as BeerSession, history as BeerHistory, goal as BeerGoal, size as BeerSize) {
         _session = session;
+        _history = history;
         _goal = goal;
         _size = size;
     }
@@ -112,10 +109,11 @@ class BeerMenu {
         var menu = new WatchUi.Menu2({:title => WatchUi.loadResource(Rez.Strings.AppName) as String});
         menu.addItem(item(Rez.Strings.Undo, null, :undo, Rez.Drawables.MenuUndo));
         menu.addItem(item(Rez.Strings.Finish, null, :end, Rez.Drawables.MenuEnd));
+        menu.addItem(item(Rez.Strings.History, null, :history, Rez.Drawables.MenuHistory));
         menu.addItem(item(Rez.Strings.Size, sizeLabel(_size.value()), :size, Rez.Drawables.MenuSize));
         menu.addItem(item(Rez.Strings.Goal, goalLabel(_goal.value()), :goal, Rez.Drawables.MenuGoal));
         menu.addItem(item(Rez.Strings.Discard, null, :discard, Rez.Drawables.MenuDiscard));
-        WatchUi.pushView(menu, new BeerMenuDelegate(_session, _goal, _size), WatchUi.SLIDE_UP);
+        WatchUi.pushView(menu, new BeerMenuDelegate(_session, _history, _goal, _size), WatchUi.SLIDE_UP);
     }
 
     private function item(label as ResourceId, subLabel as String?, id as Symbol, icon as ResourceId)
@@ -142,12 +140,14 @@ class MenuIcon extends WatchUi.Drawable {
 
 class BeerMenuDelegate extends WatchUi.Menu2InputDelegate {
     private var _session as BeerSession;
+    private var _history as BeerHistory;
     private var _goal as BeerGoal;
     private var _size as BeerSize;
 
-    function initialize(session as BeerSession, goal as BeerGoal, size as BeerSize) {
+    function initialize(session as BeerSession, history as BeerHistory, goal as BeerGoal, size as BeerSize) {
         Menu2InputDelegate.initialize();
         _session = session;
+        _history = history;
         _goal = goal;
         _size = size;
     }
@@ -159,6 +159,11 @@ class BeerMenuDelegate extends WatchUi.Menu2InputDelegate {
             WatchUi.popView(WatchUi.SLIDE_DOWN);
         } else if (id == :end) {
             confirm(Rez.Strings.EndConfirm, _session.method(:end));
+        } else if (id == :history) {
+            // The history takes the menu's place, so BACK goes to the page the
+            // menu was opened from.
+            var view = new HistoryView(_history);
+            WatchUi.switchToView(view, new HistoryDelegate(view), WatchUi.SLIDE_LEFT);
         } else if (id == :goal) {
             WatchUi.pushView(new GoalPicker(_goal), new GoalPickerDelegate(_goal), WatchUi.SLIDE_LEFT);
         } else if (id == :size) {

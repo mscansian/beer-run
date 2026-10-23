@@ -19,10 +19,6 @@ class HistoryView extends WatchUi.View {
         _history = history;
     }
 
-    function showLastPage() as Void {
-        _page = pageCount() - 1;
-    }
-
     function pageCount() as Number {
         var size = _history.entries().size();
         return size == 0 ? 1 : (size + PER_PAGE - 1) / PER_PAGE;
@@ -48,7 +44,7 @@ class HistoryView extends WatchUi.View {
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(centerX, height / 8, Graphics.FONT_XTINY,
-            WatchUi.loadResource(Rez.Strings.History) as String, Graphics.TEXT_JUSTIFY_CENTER);
+            WatchUi.loadResource(Rez.Strings.HistoryTitle) as String, Graphics.TEXT_JUSTIFY_CENTER);
 
         if (entries.size() == 0) {
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -92,30 +88,19 @@ class HistoryView extends WatchUi.View {
     }
 }
 
-// DOWN shows older sessions, UP newer ones. UP on the first page goes back to
-// the stats page. DOWN on the last page wraps around to the counter, which
-// sits under the stats page on the view stack.
+// The history opens from the menu. DOWN shows older sessions, UP newer ones,
+// and BACK closes it.
 class HistoryDelegate extends WatchUi.BehaviorDelegate {
     private var _view as HistoryView;
-    private var _menu as BeerMenu;
 
-    function initialize(view as HistoryView, menu as BeerMenu) {
+    function initialize(view as HistoryView) {
         BehaviorDelegate.initialize();
         _view = view;
-        _menu = menu;
-    }
-
-    function onMenu() as Boolean {
-        _menu.open();
-        return true;
     }
 
     function onNextPage() as Boolean {
         if (_view.page() < _view.pageCount() - 1) {
             _view.setPage(_view.page() + 1);
-        } else {
-            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-            WatchUi.popView(WatchUi.SLIDE_UP);
         }
         return true;
     }
@@ -123,8 +108,6 @@ class HistoryDelegate extends WatchUi.BehaviorDelegate {
     function onPreviousPage() as Boolean {
         if (_view.page() > 0) {
             _view.setPage(_view.page() - 1);
-        } else {
-            WatchUi.popView(WatchUi.SLIDE_DOWN);
         }
         return true;
     }

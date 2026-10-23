@@ -10,6 +10,7 @@
 
     <string id="Undo">Undo</string>
     <string id="Finish">Finish</string>
+    <string id="History">History</string>
     <string id="EndConfirm">End and save this session?</string>
     <string id="Goal">Goal</string>
     <string id="NoGoal">No goal</string>
@@ -30,6 +31,10 @@
     <string id="Lap">LAP $1$</string>
     <string id="LapTime">LAP TIME</string>
 
-    <string id="History">HISTORY</string>
+    <string id="Splits">SPLITS</string>
+    <string id="SplitsEmpty">No laps yet</string>
+    <string id="SplitsAverage">avg $1$</string>
+
+    <string id="HistoryTitle">HISTORY</string>
     <string id="HistoryEmpty">No sessions yet</string>
 </strings>

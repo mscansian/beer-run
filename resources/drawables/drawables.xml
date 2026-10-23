@@ -2,6 +2,7 @@
     <bitmap id="LauncherIcon" filename="launcher_icon.png"/>
     <bitmap id="MenuUndo" filename="menu_undo.png"/>
     <bitmap id="MenuEnd" filename="menu_end.png"/>
+    <bitmap id="MenuHistory" filename="menu_history.png"/>
     <bitmap id="MenuSize" filename="menu_size.png"/>
     <bitmap id="MenuGoal" filename="menu_goal.png"/>
     <bitmap id="MenuDiscard" filename="menu_discard.png"/>

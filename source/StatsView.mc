@@ -88,14 +88,14 @@ class StatsView extends WatchUi.View {
     }
 }
 
-// UP goes back to the counter, DOWN on to the history.
+// UP goes back to the counter, DOWN on to the splits.
 class StatsDelegate extends WatchUi.BehaviorDelegate {
-    private var _history as BeerHistory;
+    private var _session as BeerSession;
     private var _menu as BeerMenu;
 
-    function initialize(history as BeerHistory, menu as BeerMenu) {
+    function initialize(session as BeerSession, menu as BeerMenu) {
         BehaviorDelegate.initialize();
-        _history = history;
+        _session = session;
         _menu = menu;
     }
 
@@ -105,8 +105,7 @@ class StatsDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onNextPage() as Boolean {
-        var view = new HistoryView(_history);
-        WatchUi.pushView(view, new HistoryDelegate(view, _menu), WatchUi.SLIDE_UP);
+        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_menu), WatchUi.SLIDE_UP);
         return true;
     }
 
