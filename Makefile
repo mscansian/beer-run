@@ -3,6 +3,7 @@ GARMIN_DEV := tools/garmin-dev/scripts/host/garmin-dev.sh
 # The launcher names the container after the project path relative to $HOME.
 CONTAINER := gd-$(subst /,-,$(patsubst $(HOME)/%,%,$(CURDIR)))
 PRG       := bin/beer-$(DEVICE).prg
+IQ        := bin/beer.iq
 KEY       := $(HOME)/.connectiq/developer_key.der
 CLI       := ~/go/bin/connect-iq-sdk-manager-cli
 
@@ -11,7 +12,7 @@ WATCH_MOUNT = $$(ls -d /run/user/$$(id -u)/gvfs/mtp:host=091e_* 2>/dev/null | he
 WATCH_URI   = $$(gio mount -l 2>/dev/null | grep -o 'mtp://091e_[^/ ]*/' | head -1)
 NO_WATCH    = echo "error: no Garmin watch is mounted. Plug it in over USB and wait for it to show up in the file manager." >&2; exit 1
 
-.PHONY: image login sdk up down build sim upload eject clean
+.PHONY: image login sdk up down build package sim upload eject clean
 
 # Build the toolchain image. Needed once, or after changing tools/garmin-dev.
 image:
@@ -40,6 +41,11 @@ down:
 
 build: up
 	docker exec -w $(CURDIR) $(CONTAINER) monkeyc -d $(DEVICE) -f beer.jungle -o $(PRG) -y $(KEY) -l 3 -w
+
+# Build the .iq file for the Connect IQ Store, with a release build for every
+# device in manifest.xml.
+package: up
+	docker exec -w $(CURDIR) $(CONTAINER) monkeyc -e -r -f beer.jungle -o $(IQ) -y $(KEY) -l 3 -w
 
 # Build and open the app in the simulator window.
 sim: up

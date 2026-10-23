@@ -30,6 +30,7 @@ Develop:
 ```bash
 make sim     # build and open the app in the simulator
 make build   # build bin/beer-fr955.prg
+make package # build bin/beer.iq for the Connect IQ Store
 make down    # stop the container
 ```
 
