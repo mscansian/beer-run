@@ -40,4 +40,47 @@
 
     <string id="HistoryTitle">HISTÓRICO</string>
     <string id="HistoryEmpty">Nenhuma sessão ainda</string>
+
+    <string id="DamageSober">SÓBRIO LÁ PELAS</string>
+    <string id="DamageInMinutes">em $1$ min</string>
+    <string id="DamageInHours">em $1$h$2$</string>
+    <string id="DamageDebt">CONTA DO BAR</string>
+    <string id="DamageEmpty">Nenhuma cerveja ainda</string>
+    <string id="DamageNoProfile">Defina peso e altura no relógio</string>
+
+    <string id="DebtBlock1">Uma volta no quarteirão</string>
+    <string id="DebtBlock2">Dá pra resolver andando</string>
+    <string id="DebtBlock3">Nem esquenta</string>
+    <string id="DebtBlock4">Só pra soltar a perna</string>
+    <string id="DebtBlock5">Dura uma música</string>
+
+    <string id="Debt5k1">Um 5K e tá pago</string>
+    <string id="Debt5k2">Corridinha no parque</string>
+    <string id="Debt5k3">Um trote de leve</string>
+    <string id="Debt5k4">Com desaquecimento e tudo</string>
+    <string id="Debt5k5">Cinquinho rápido</string>
+
+    <string id="Debt10k1">Tem 10K no cardápio</string>
+    <string id="Debt10k2">Amanhã tem tiro</string>
+    <string id="Debt10k3">A conta chegou em dois dígitos</string>
+    <string id="Debt10k4">Amanhã é acordar cedo</string>
+    <string id="Debt10k5">Só um 10K paga essa</string>
+
+    <string id="DebtHalf1">Já é meia maratona</string>
+    <string id="DebtHalf2">Longão de domingo</string>
+    <string id="DebtHalf3">Separa o gel</string>
+    <string id="DebtHalf4">Meia maratona. Doeu.</string>
+    <string id="DebtHalf5">Longão sem pressa</string>
+
+    <string id="DebtMarathon1">Deu uma maratona</string>
+    <string id="DebtMarathon2">Bem-vindo ao muro</string>
+    <string id="DebtMarathon3">$1$ motivos pra parar</string>
+    <string id="DebtMarathon4">Bora se inscrever numa maratona</string>
+    <string id="DebtMarathon5">Pelo menos o carbo tá em dia</string>
+
+    <string id="DebtUltra1">Ultra. Boa sorte.</string>
+    <string id="DebtUltra2">Prepara a lanterna de cabeça</string>
+    <string id="DebtUltra3">Leva água. Muita água.</string>
+    <string id="DebtUltra4">Chama de corrida solidária</string>
+    <string id="DebtUltra5">Te vejo semana que vem</string>
 </strings>

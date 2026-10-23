@@ -6,7 +6,7 @@ import Toybox.Time;
 import Toybox.WatchUi;
 
 // START (or a double tap) adds a beer. DOWN and UP move through the pages: counter,
-// stats, splits, and around again. MENU (hold UP) opens the menu from any page.
+// stats, splits, damage, and around again. MENU (hold UP) opens the menu from any page.
 class BeerDelegate extends WatchUi.BehaviorDelegate {
     // The longest gap between two taps that still counts as a double tap.
     private const DOUBLE_TAP_MS = 400;
@@ -72,12 +72,13 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    // The pages loop, so UP from the counter wraps around to the splits. Stats
-    // goes on the stack under it, so UP keeps going backwards through the
-    // pages to the counter.
+    // The pages loop, so UP from the counter wraps around to the damage page.
+    // Stats and splits go on the stack under it, so UP keeps going backwards
+    // through the pages to the counter.
     function onPreviousPage() as Boolean {
         WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu), WatchUi.SLIDE_IMMEDIATE);
-        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_menu), WatchUi.SLIDE_DOWN);
+        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu), WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.pushView(new DamageView(_session), new DamageDelegate(_menu), WatchUi.SLIDE_DOWN);
         return true;
     }
 

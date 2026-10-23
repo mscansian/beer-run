@@ -40,4 +40,47 @@
 
     <string id="HistoryTitle">HISTORY</string>
     <string id="HistoryEmpty">No sessions yet</string>
+
+    <string id="DamageSober">SOBER AROUND</string>
+    <string id="DamageInMinutes">in $1$ min</string>
+    <string id="DamageInHours">in $1$h$2$</string>
+    <string id="DamageDebt">BEER DEBT</string>
+    <string id="DamageEmpty">No beers yet</string>
+    <string id="DamageNoProfile">Set your weight and height on the watch</string>
+
+    <string id="DebtBlock1">A lap around the block</string>
+    <string id="DebtBlock2">Walk it off</string>
+    <string id="DebtBlock3">Barely a warm-up</string>
+    <string id="DebtBlock4">Shake it out</string>
+    <string id="DebtBlock5">One song's worth</string>
+
+    <string id="Debt5k1">That's a 5K</string>
+    <string id="Debt5k2">Saturday parkrun</string>
+    <string id="Debt5k3">An easy recovery run</string>
+    <string id="Debt5k4">Cooldown included</string>
+    <string id="Debt5k5">Just a quick 5</string>
+
+    <string id="Debt10k1">A 10K on the menu</string>
+    <string id="Debt10k2">Tempo run tomorrow</string>
+    <string id="Debt10k3">Double-digit debt</string>
+    <string id="Debt10k4">Lace up early</string>
+    <string id="Debt10k5">Pay up with a 10K</string>
+
+    <string id="DebtHalf1">Half marathon territory</string>
+    <string id="DebtHalf2">Sunday long run</string>
+    <string id="DebtHalf3">Bring a gel</string>
+    <string id="DebtHalf4">That's a half. Ouch.</string>
+    <string id="DebtHalf5">Long run, slow pace</string>
+
+    <string id="DebtMarathon1">Marathon debt</string>
+    <string id="DebtMarathon2">Hello, wall</string>
+    <string id="DebtMarathon3">$1$ reasons to stop</string>
+    <string id="DebtMarathon4">Book a marathon</string>
+    <string id="DebtMarathon5">Carb loading complete</string>
+
+    <string id="DebtUltra1">Ultra. Good luck.</string>
+    <string id="DebtUltra2">Bring a headlamp</string>
+    <string id="DebtUltra3">Aid stations needed</string>
+    <string id="DebtUltra4">Call it a fundraiser</string>
+    <string id="DebtUltra5">See you next week</string>
 </strings>

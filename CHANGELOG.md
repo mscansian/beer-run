@@ -4,6 +4,10 @@ All notable changes to Beer Run are listed here, newest first. The format follow
 
 ## [Unreleased]
 
+### Added
+
+- A damage page after Splits: when you will probably be sober, and your beer debt, the km you would have to run to burn off the beer. It uses your weight, height, age and gender from the watch, so the app now asks for access to your user profile.
+
 ### Changed
 
 - Finishing a session ends it when you press Finish, so the session time and pace include the last beer. A session that ends after 8 hours without a beer still ends at its last beer.

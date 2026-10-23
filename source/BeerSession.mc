@@ -2,37 +2,65 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.Time;
 
+// One beer: [time, ml, abv]. The time is in seconds since the Unix epoch,
+// and abv is in tenths of a percent (50 is 5%).
+typedef Beer as [Number, Number, Number];
+
 // The beers in the current drinking session. Every change is written to
 // storage right away, so the session survives closing the app or a reboot.
 // A session ends when the user ends it, or once IDLE_SECONDS pass without a
 // beer; either way it moves to the history. The goal belongs to one session,
-// so ending a session with beers in it clears the goal.
+// so ending a session with beers in it clears the goal. The last finished
+// session is also kept on its own, because its alcohol outlives it.
 (:glance)
 class BeerSession {
     static const IDLE_SECONDS = 8 * 60 * 60;
+    // Every beer counts as 5% ABV. It is saved with each beer so it can become
+    // a setting later.
+    static const ABV = 50;
 
     private const STORAGE_KEY = "session";
+    private const FINISHED_KEY = "finished";
     // Earlier versions stored only the time of each beer under this key.
     private const TIMES_ONLY_KEY = "beers";
 
     private var _history as BeerHistory;
     private var _goal as BeerGoal;
-    // Oldest first. Each beer is [time, ml]: seconds since the Unix epoch, and
-    // its size in ml.
-    private var _beers as Array<[Number, Number]>;
+    // Oldest first.
+    private var _beers as Array<Beer>;
 
     function initialize(history as BeerHistory, goal as BeerGoal) {
         _history = history;
         _goal = goal;
-        var stored = Application.Storage.getValue(STORAGE_KEY);
-        _beers = stored != null ? stored as Array<[Number, Number]> : loadTimesOnly();
-        // Earlier versions saved beers without a size as 0 ml. They count as
-        // pints.
-        for (var i = 0; i < _beers.size(); i++) {
-            if (_beers[i][1] == 0) {
-                _beers[i][1] = BeerSize.PINT;
+        var stored = Application.Storage.getValue(STORAGE_KEY) as Array<Array<Number?>>?;
+        _beers = stored != null ? upgrade(stored) : loadTimesOnly();
+    }
+
+    // Earlier versions saved each beer as [time, ml], and before that with a
+    // size of 0 ml. Those beers count as 5% pints.
+    private function upgrade(stored as Array<Array<Number?>>) as Array<Beer> {
+        var beers = [] as Array<Beer>;
+        for (var i = 0; i < stored.size(); i++) {
+            var beer = stored[i];
+            if (beer.size() == 3) {
+                beers.add(beer as Beer);
+            } else {
+                var ml = beer[1] as Number;
+                beers.add([beer[0] as Number, ml == 0 ? BeerSize.PINT : ml, ABV]);
             }
         }
+        return beers;
+    }
+
+    // Oldest first.
+    function beers() as Array<Beer> {
+        return _beers;
+    }
+
+    // The beers of the session finished most recently, oldest first.
+    function finishedBeers() as Array<Beer> {
+        var stored = Application.Storage.getValue(FINISHED_KEY) as Array<Beer>?;
+        return stored != null ? stored : [] as Array<Beer>;
     }
 
     function count() as Number {
@@ -90,7 +118,7 @@ class BeerSession {
 
     function add(ml as Number) as Void {
         endIfIdle();
-        _beers.add([Time.now().value(), ml]);
+        _beers.add([Time.now().value(), ml, ABV]);
         save();
     }
 
@@ -110,6 +138,7 @@ class BeerSession {
     private function endAt(end as Number) as Void {
         if (_beers.size() > 0) {
             _history.add(_beers[0][0], end, _beers.size(), totalMl());
+            Application.Storage.setValue(FINISHED_KEY, _beers as Array<Application.Storage.ValueType>);
         }
         discard();
     }
@@ -119,16 +148,16 @@ class BeerSession {
         if (_beers.size() > 0) {
             _goal.set(null);
         }
-        _beers = [] as Array<[Number, Number]>;
+        _beers = [] as Array<Beer>;
         save();
     }
 
-    private function loadTimesOnly() as Array<[Number, Number]> {
+    private function loadTimesOnly() as Array<Beer> {
         var times = Application.Storage.getValue(TIMES_ONLY_KEY) as Array<Number>?;
-        var beers = [] as Array<[Number, Number]>;
+        var beers = [] as Array<Beer>;
         if (times != null) {
             for (var i = 0; i < times.size(); i++) {
-                beers.add([times[i], BeerSize.PINT]);
+                beers.add([times[i], BeerSize.PINT, ABV]);
             }
         }
         return beers;

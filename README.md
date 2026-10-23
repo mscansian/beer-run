@@ -18,11 +18,14 @@ Each beer after the first closes a lap, like pressing LAP on a run. For 5 second
 
 ### Pages
 
-UP and DOWN move through three pages, which loop:
+UP and DOWN move through four pages, which loop:
 
 1. Counter: the beer count and the time since the last one.
 2. Stats: the current session laid out like a running app, with a live timer, litres, beers, and the pace in time per litre.
 3. Splits: the last few beers with how long each took, and the average.
+4. Damage: when you will probably be sober, and your beer debt, the km you would have to run to burn off the beer.
+
+The damage page needs your weight, height, birth year and gender from the watch's user profile. Every beer counts as 5% ABV. The sober time is a rough estimate, so never use it to decide whether to drive. After you finish a session, the page keeps showing it until its sober time passes.
 
 ### Menu
 
