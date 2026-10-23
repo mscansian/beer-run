@@ -24,13 +24,18 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
         _menu = new BeerMenu(session, history, goal, size);
     }
 
-    function onSelect() as Boolean {
-        addBeer();
-        return true;
+    // The select behavior runs before onKey and onTap and fires for both START
+    // and a tap, so it can't tell them apart. With no onSelect here, START
+    // arrives as KEY_ENTER and a tap arrives in onTap.
+    function onKey(event as WatchUi.KeyEvent) as Boolean {
+        if (event.getKey() == WatchUi.KEY_ENTER) {
+            addBeer();
+            return true;
+        }
+        return false;
     }
 
     // A single tap does nothing, so brushing the screen doesn't add a beer.
-    // Handling the tap here keeps it from also triggering onSelect.
     function onTap(event as WatchUi.ClickEvent) as Boolean {
         var now = System.getTimer();
         if (_lastTapAt != null && now - _lastTapAt <= DOUBLE_TAP_MS) {
