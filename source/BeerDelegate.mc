@@ -6,7 +6,9 @@ import Toybox.Time;
 import Toybox.WatchUi;
 
 // The counter page. A double tap adds a beer here too. DOWN and UP move
-// through the pages: counter, stats, splits, damage, and around again.
+// through the pages: counter, stats, splits, damage, and around again. Splits
+// and damage have nothing to show without a beer, so an empty session loops
+// through only the counter and stats.
 class BeerDelegate extends PageDelegate {
     // The longest gap between two taps that still counts as a double tap.
     private const DOUBLE_TAP_MS = 400;
@@ -63,6 +65,11 @@ class BeerDelegate extends PageDelegate {
     // Stats and splits go on the stack under it, so UP keeps going backwards
     // through the pages to the counter.
     function onPreviousPage() as Boolean {
+        if (_session.count() == 0) {
+            WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu, _addBeer),
+                WatchUi.SLIDE_DOWN);
+            return true;
+        }
         WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu, _addBeer),
             WatchUi.SLIDE_IMMEDIATE);
         WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu, _addBeer),

@@ -111,7 +111,14 @@ class SplitsDelegate extends PageDelegate {
         return true;
     }
 
+    // With no beers, DOWN wraps around to the counter, under the stats page on
+    // the view stack.
     function onNextPage() as Boolean {
+        if (_session.count() == 0) {
+            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+            WatchUi.popView(WatchUi.SLIDE_UP);
+            return true;
+        }
         WatchUi.pushView(new DamageView(_session), new DamageDelegate(_menu, _addBeer), WatchUi.SLIDE_UP);
         return true;
     }

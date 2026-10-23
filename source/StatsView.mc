@@ -102,7 +102,13 @@ class StatsDelegate extends PageDelegate {
         return true;
     }
 
+    // With no beers, DOWN wraps around to the counter, which sits under this
+    // page on the view stack.
     function onNextPage() as Boolean {
+        if (_session.count() == 0) {
+            WatchUi.popView(WatchUi.SLIDE_UP);
+            return true;
+        }
         WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu, _addBeer), WatchUi.SLIDE_UP);
         return true;
     }

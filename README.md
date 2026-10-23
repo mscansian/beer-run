@@ -25,6 +25,8 @@ UP and DOWN move through four pages, which loop:
 3. Splits: the last few beers with how long each took, and the average.
 4. Damage: when you will probably be sober, and your beer debt, the km you would have to run to burn off the beer.
 
+Splits and Damage show up once the session has a beer.
+
 The damage page needs your weight, height, birth year and gender from the watch's user profile. Every beer counts as 5% ABV. The sober time is a rough estimate, so never use it to decide whether to drive. Finishing or discarding a session clears the page.
 
 ### Menu
