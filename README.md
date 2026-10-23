@@ -1,4 +1,4 @@
-# Beer Counter
+# Beer Run
 
 A Connect IQ watch app for Garmin Forerunner watches (955 / 955 Solar, 255 / 255S and their Music versions, and 55) that counts the beers in a drinking session.
 

@@ -1,5 +1,5 @@
 <strings>
-    <string id="AppName" scope="glance">Beer Counter</string>
+    <string id="AppName" scope="glance">Beer Run</string>
     <string id="Beer" scope="glance">beer</string>
     <string id="Beers" scope="glance">beers</string>
     <string id="Hint">START +1</string>
