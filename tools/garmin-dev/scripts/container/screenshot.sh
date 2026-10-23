@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# RUNS IN: container (vendored; baked as /usr/local/bin/screenshot.sh)
+# RUNS IN: container (baked as /usr/local/bin/screenshot.sh)
 # Capture the running Connect IQ simulator window directly, by its X11 window id
 # (located via window title), instead of screenshotting the whole display and
 # guessing where the window sits.
@@ -22,7 +22,7 @@
 #       are enclosed by the black face, disconnected, and so preserved. A global
 #       "white -> transparent" would wrongly erase those, hence floodfill.
 set -euo pipefail
-export LC_ALL=C.UTF-8   # vendored change (was C): keep IM fx decimal point AND xprop UTF8 title conversion working; force '.' decimal in ImageMagick fx output
+export LC_ALL=C.UTF-8   # keep IM fx decimal point AND xprop UTF8 title conversion working; force '.' decimal in ImageMagick fx output
 
 TRANSPARENT=0
 CROP=0
@@ -43,7 +43,7 @@ command -v xprop  >/dev/null || { echo "error: xprop not found" >&2; exit 1; }
 command -v import >/dev/null || { echo "error: ImageMagick 'import' not found" >&2; exit 1; }
 
 # Find the simulator's X11 window id by WM_NAME among the managed XWayland clients.
-# Vendored change: take the LAST match, not the first. On device load the sim
+# Take the LAST match, not the first. On device load the sim
 # creates a second "CIQ Simulator" window (the device view) and leaves the
 # initial blank one in _NET_CLIENT_LIST; the newest match is the live view.
 simid=""
@@ -69,7 +69,7 @@ if [ "$CROP" = 1 ]; then
     # the transparent floodfill, which would otherwise erase the white we detect on.
     ch=$(magick "$OUT" -format "%[fx:h]" info:)
     cw=$(magick "$OUT" -format "%[fx:w]" info:)
-    # Vendored change: fuzz 2% (was 5%). The container GTK theme's chrome is
+    # Fuzz 2%, not 5%. The container GTK theme's chrome is
     # srgb(246,245,244), ~4% off white, and slipped inside the 5% band; the
     # device area's background is pure white so 2% still catches it.
     bounds=$(magick "$OUT" -fuzz 2% -fill black +opaque white -colorspace gray -resize 1x${ch}\! txt:- \

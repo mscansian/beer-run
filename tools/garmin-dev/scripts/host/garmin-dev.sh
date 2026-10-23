@@ -230,7 +230,7 @@ cmd_shell() {
 }
 
 # Build + load the project's app into the sim, so "sim" always ends with
-# the watch face visible, never a bare simulator. simrun.sh starts the sim
+# the app visible, never a bare simulator. simrun.sh starts the sim
 # if needed and restarts it on a device switch (monkeydo cannot retarget a
 # running sim). Settings-override env vars are not forwarded; use the
 # shimmed simrun.sh directly for those.

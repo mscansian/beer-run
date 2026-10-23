@@ -2,7 +2,7 @@
 
 Promoted from the build-out plan (all phases implemented and verified,
 2026-07). Non-obvious traps live in [gotchas.md](gotchas.md); read it
-before changing the Dockerfile, launcher, entrypoint, or vendored scripts.
+before changing the Dockerfile, launcher, entrypoint, or container scripts.
 
 ## Why this exists
 
@@ -92,7 +92,7 @@ modes produce pixel-identical screenshot dimensions.
 
 Host shims in `bin/` (symlinks to `garmin-shim`): `monkeyc`, `monkeydo`,
 `simulator`, `connect-iq-sdk-manager-cli`, `auto-shot.sh`,
-`screenshot.sh`, `simrun.sh`, `cut-face.sh`, `gen-settings-doc.py`.
+`screenshot.sh`, `simrun.sh`.
 Each resolves the running container whose project label covers `$PWD` and
 execs the same tool name there with the same cwd/argv. No container: fail
 loudly (`GARMIN_DEV_AUTOSTART=1` opts into auto-`up`, project root found
@@ -106,17 +106,16 @@ HISTFILE for `bash -l` shells), and headless `DISPLAY=:99`
 living in container config env.
 
 Bash history and the sim/monkeydo logs (`<container>.sim.log`,
-`<container>.monkeydo.log`, written by the vendored `simrun.sh`/
+`<container>.monkeydo.log`, written by `simrun.sh`/
 `auto-shot.sh`) live on the host in the mounted `~/.cache/garmin-dev/`,
 keyed by container name — readable from the host, surviving the container.
 Never write state into the mounted project tree: project-local dotdirs get
 committed by accident.
 
-Contract with the watch-face project: its Makefile resolves `monkeyc`/
-`monkeydo`/`simulator`/the CLI from PATH (`?=` variables), so host
-`make build`/`package` transparently go through the shims. Its
-sim/screenshot make targets check local process/port state and only work
-fully inside the container.
+A project Makefile that resolves `monkeyc`/`monkeydo`/`simulator`/the CLI
+from PATH (`?=` variables) goes through the shims transparently for
+`make build`/`package`. Make targets that check local process/port state
+(simulator or screenshot helpers) only work fully inside the container.
 
 ## SDK setup flow
 
@@ -131,14 +130,12 @@ login is one-time; later downloads are non-interactive.
 
 ## Screenshot pipeline
 
-The vendored `auto-shot.sh` (build, relaunch sim, wait for the face to
-render by frame-diffing, capture) and `screenshot.sh` (window-id capture
-by title, chrome crop, seeded-floodfill transparency) are copies of the
-watch-face project's scripts with documented divergences (locale,
-last-match window lookup, compare metric, crop fuzz, project root = cwd,
-and genericization: jungle/app derived from the cwd via `ciq-jungle.sh`,
-DEVICE required, neutral output defaults); gotchas.md lists each with its
-reason. Sync deliberately when the originals change.
+`auto-shot.sh` (build, relaunch sim, wait for the app to render by
+frame-diffing, capture) and `screenshot.sh` (window-id capture by title,
+chrome crop, seeded-floodfill transparency) run from the project root,
+derive the jungle/app from the cwd via `ciq-jungle.sh`, and require the
+DEVICE argument. Their non-obvious choices (locale, last-match window
+lookup, compare metric, crop fuzz) are explained in gotchas.md.
 
 ## Testing
 

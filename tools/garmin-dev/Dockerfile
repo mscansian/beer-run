@@ -80,7 +80,7 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     && rm -rf /var/lib/apt/lists/*
 
-# ImageMagick 7: watch-face project scripts call `magick`, which apt's IM6
+# ImageMagick 7: the screenshot scripts call `magick`, which apt's IM6
 # does not provide. Official AppImage from the latest GitHub release
 # (x86_64 only), extracted so no FUSE is needed.
 RUN URL="$(curl -fsSL https://api.github.com/repos/ImageMagick/ImageMagick/releases/latest \

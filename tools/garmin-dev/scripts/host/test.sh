@@ -59,8 +59,6 @@ check "ss is available"           run "ss --version"
 check "auto-shot.sh baked"        run "test -x /usr/local/bin/auto-shot.sh"
 check "screenshot.sh baked"       run "test -x /usr/local/bin/screenshot.sh"
 check "simrun.sh baked"           run "test -x /usr/local/bin/simrun.sh"
-check "cut-face.sh baked"         run "test -x /usr/local/bin/cut-face.sh"
-check "gen-settings-doc baked"    run "test -x /usr/local/bin/gen-settings-doc.py"
 
 echo "=== Security tests ==="
 check "sudo not installed"  run "! which sudo"

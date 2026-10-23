@@ -21,8 +21,7 @@ Items marked "unverified" still need an empirical check.
   `~/.connect-iq-sdk-manager` as the host user before `docker run`.
 - **Bare `--user UID:GID` breaks `$HOME`-dependent tooling.** With no
   matching passwd entry, `$HOME` is unset and getpwuid fails; every
-  hardcoded `$HOME/...` path in the watch-face project's scripts
-  misresolves. Create a real user at build time via build-args, with the
+  hardcoded `$HOME/...` path in project scripts misresolves. Create a real user at build time via build-args, with the
   home path equal to the host home.
 - **Home path matters as much as UID.** The SDK manager CLI writes absolute
   paths under `$HOME` into its config; a container home differing from the
@@ -56,22 +55,21 @@ Items marked "unverified" still need an empirical check.
   falls back to the stale blank pre-load window: sim runs and renders
   fine, screenshots come out blank grey. The image sets
   `LANG`/`LC_ALL=C.UTF-8` (glibc's built-in C.utf8, no locales package),
-  and the vendored `auto-shot.sh`/`screenshot.sh` export `LC_ALL=C.UTF-8`
-  where the originals export `C`. Do not revert either.
+  and `auto-shot.sh`/`screenshot.sh` export `LC_ALL=C.UTF-8`, not `C`.
+  Do not revert either.
 - **On device load the sim creates a second "CIQ Simulator" window** and
-  the initial blank one stays in `_NET_CLIENT_LIST`. The vendored
-  `screenshot.sh` takes the last title match (newest window), not the
-  first; the original takes the first and would capture the blank one.
+  the initial blank one stays in `_NET_CLIENT_LIST`. `screenshot.sh`
+  takes the last title match (newest window), not the first, which would
+  capture the blank one.
 - **The IM7 AppImage is a Q16-HDRI build: `compare -metric AE` output is
-  incompatible with the original scripts.** It prints scientific notation
-  with counts scaled by 65535 (black-vs-white 240x240 gives 3.77e9, not
-  57600), which the original `grep '^[0-9]+'` mangles into garbage. The
-  vendored `auto-shot.sh` computes the changed-pixel fraction via a
-  difference composite instead of `compare`.
+  unusable as a pixel count.** It prints scientific notation with counts
+  scaled by 65535 (black-vs-white 240x240 gives 3.77e9, not 57600), which
+  a plain `grep '^[0-9]+'` mangles into garbage. `auto-shot.sh` computes
+  the changed-pixel fraction via a difference composite instead of
+  `compare`.
 - **The container GTK theme's window chrome is srgb(246,245,244), ~4% off
-  white.** The original screenshot crop detection uses `-fuzz 5%` and
-  counts the chrome as device-area white, so nothing gets cropped. The
-  vendored `screenshot.sh` uses `-fuzz 2%`.
+  white.** Crop detection with `-fuzz 5%` counts the chrome as device-area
+  white, so nothing gets cropped. `screenshot.sh` uses `-fuzz 2%`.
 - **docker exec bypasses the entrypoint.** Exec'd commands get only the
   image ENV: no SDK bin on PATH, no HISTFILE, no headless DISPLAY export.
   Three pieces compensate; do not remove any of them:
@@ -91,13 +89,12 @@ Items marked "unverified" still need an empirical check.
 - **One-shot mode and persistent mode share the container name.** The
   launcher refuses one-shot runs (and test.sh skips integration) while the
   project's persistent container is up; `down` it first.
-- **The watch-face sim/screenshot make targets do not shim.** `make sim`,
-  `run`, `shot`, `gallery` shell out to host-side scripts that check local
-  process/port/.SET state (`pgrep`, `ss`, /tmp); with shimmed tools the
-  work happens in the container but those checks inspect the host, so the
-  scripts' world-model breaks. Compile targets (`build`, `all`,
-  `package*`) shim transparently; run sim workflows wholly in-container
-  (shimmed `auto-shot.sh`/`simrun.sh`, `garmin-dev.sh sim`, or a shell).
+- **Make targets that wrap host-side sim scripts do not shim.** A target
+  that shells out to a script checking local process/port/.SET state
+  (`pgrep`, `ss`, /tmp) runs its tools in the container but its checks on
+  the host, so the script's world-model breaks. Compile targets shim
+  transparently; run sim workflows wholly in-container (shimmed
+  `auto-shot.sh`/`simrun.sh`, `garmin-dev.sh sim`, or a shell).
 - **monkeydo pushes are unreliable, in two distinct ways, and monkeydo
   itself never tells you.** (a) Into a freshly started sim, a push can die
   silently — port 1234 opens before the sim's shell handler is ready.
@@ -105,29 +102,27 @@ Items marked "unverified" still need an empirical check.
   where monkeydo exits 0, prints nothing, and the push is simply ignored.
   Even a successful device switch takes ~10-20 s to appear (full device
   reload). Consequences: never trust monkeydo's exit status or the
-  "loaded" handoff; verify on screen. The vendored `simrun.sh` polls this
+  "loaded" handoff; verify on screen. `simrun.sh` polls this
   container's sim window (matched by `_NET_WM_PID` — the X server is
   shared, so titles alone are ambiguous) for the target device's
   `displayName` (from the device's `compiler.json`) and, on timeout,
   restarts the sim and re-pushes (a fresh sim + push is the reliable
   path). A same-device reload cannot be verified this way (the title does
   not change) and is pushed blind. Each push also leaves a monkeydo java
-  attached for the app's lifetime; the vendored scripts kill leftovers
+  attached for the app's lifetime; the sim scripts kill leftovers
   before each push so they don't accumulate.
-- **The `displayName` title check is untested against long names.** The
-  marq3 device file names all six editions in one string ("MARQ® (Gen 3)
-  Athlete / Adventurer / Aviator / Commander / Golfer / Diver"), far longer
-  than any other device and containing slashes. Whether the sim puts the
-  whole string in the window title is unverified (open question). If a
-  marq3 load times out in `simrun.sh` while the face is visibly rendered,
-  check the title with `xprop` before blaming the push path.
+- **The `displayName` title check is untested against long names.** Some
+  device files name several editions in one string, with slashes. Whether
+  the sim puts the whole string in the window title is unverified (open
+  question). If such a device times out in `simrun.sh` while the app is
+  visibly rendered, check the title with `xprop` before blaming the push
+  path.
 - **Device files outrun the installed SDK.** The SDK manager's device
   download always delivers the current device file, whose `api.debug.xml`
-  carries the newest API surface regardless of which SDK is installed. The
-  marq3 file fetched 2026-10-20 exposes SDK 9.3 symbols (LTE, microphone,
-  speaker) while the container runs SDK 9.2.0. Harmless for watch faces;
-  a build error on a new API is an SDK gap, not a device file gap
-  (inferred from a symbol diff, not from a failed build).
+  carries the newest API surface regardless of which SDK is installed. A
+  device file fetched 2026-10-20 exposed SDK 9.3 symbols while the
+  container ran SDK 9.2.0. A build error on a new API is an SDK gap, not a
+  device file gap (inferred from a symbol diff, not from a failed build).
 - **The container shares the host X server, including its window list.**
   A simulator running on the host (or another container) is
   indistinguishable from the container's own in the title lookup. Don't
@@ -143,17 +138,15 @@ Items marked "unverified" still need an empirical check.
   pass creds via build-args or `-e` (visible in `docker history`/
   `docker inspect`); the launcher mounts a file read-only.
 - **Do not mount `/tmp/com.garmin.connectiq` from the host.** The sim's
-  `.SET` files live there and the watch-face project's scripts delete
-  them; container-local `/tmp` is correct and isolation from host sim
+  `.SET` files live there and project scripts may delete them; container-local `/tmp` is correct and isolation from host sim
   state is a feature.
-- **The vendored sim scripts are genericized; the originals are not.**
-  `auto-shot.sh`/`simrun.sh` derive the jungle/app name from the current
-  dir via `resolve_jungle` in `ciq-jungle.sh` (single `*.jungle`, or the
-  base jungle whose stem prefixes all others, e.g. `foo.jungle` among
+- **The sim scripts find the app from the current directory.**
+  `auto-shot.sh`/`simrun.sh` derive the jungle/app name via
+  `resolve_jungle` in `ciq-jungle.sh` (single `*.jungle`, or the base
+  jungle whose stem prefixes all others, e.g. `foo.jungle` among
   `foo-dev.jungle`/`foo-beta.jungle`; `JUNGLE=<file>` overrides, anything
   ambiguous errors), require the DEVICE argument, and default output to
-  `/tmp/ciq-sim.png`. The project originals hardcode their app names and
-  default the device. Keep this in mind when syncing either direction.
+  `/tmp/ciq-sim.png`.
 
 ## Findings
 
@@ -183,7 +176,7 @@ Items marked "unverified" still need an empirical check.
   missing-locale trap above. Every earlier hypothesis (seccomp, WebKit
   sandbox, D-Bus, GLX, missing repaint) was wrong; the pipeline was fine.
 - **Fix:** UTF-8 locale in the image + last-match window lookup, plus the
-  AE-metric and crop-fuzz vendored fixes uncovered right after.
+  AE-metric and crop-fuzz fixes uncovered right after.
 - **Takeaway:** When the sim "loads nothing", check for a second X window
   and the sim's thread list before touching security or graphics knobs.
   Verified result: in-container renders are dimensionally identical to

@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
-# RUNS IN: container (vendored; baked as /usr/local/bin/simrun.sh)
-# Vendored changes vs the project original: project root is the current
-# directory, not the script's location (run from the project root); DEVICE
-# is required; the jungle/app name is derived from the current dir via
-# resolve_jungle (JUNGLE=<file> overrides, --install uses <app>-dev.jungle).
-# --install (MTP sideload to a watch) does not work in the container.
+# RUNS IN: container (baked as /usr/local/bin/simrun.sh). Run from the
+# project root. DEVICE is required; the jungle/app name is derived from the
+# current dir via resolve_jungle (JUNGLE=<file> overrides, --install uses
+# <app>-dev.jungle). --install (MTP sideload to a watch) does not work in the
+# container.
 #
 # Build + load a device into the simulator, or (with --install) sideload it to a
 # connected watch -- optionally overriding app-settings defaults. Pass overrides as
 # environment variables named exactly after the <property id> entries in
 # resources/settings/properties.xml, e.g.:
 #
-#     moonImage=1 ./simrun.sh marq2aviator           # cat, in the sim
-#     moonImage=2 tz=2 ./simrun.sh fenix843mm         # fox + Stockholm, in the sim
-#     moonImage=1 ./simrun.sh --install fenix843mm    # cat, sideloaded to the watch
+#     theme=1 ./simrun.sh fr955                # in the sim
+#     theme=2 units=1 ./simrun.sh fr955        # two overrides, in the sim
+#     theme=1 ./simrun.sh --install fr955      # sideloaded to the watch
 #
 # Mechanism: Application.Properties is seeded from the .prg's properties.xml
 # defaults, so for each override we patch that default into properties.xml for the
@@ -33,7 +32,7 @@ PROPS="$ROOT/resources/settings/properties.xml"
 KEY="$HOME/.connectiq/developer_key.der"
 SDKBIN="$("$HOME/go/bin/connect-iq-sdk-manager-cli" sdk current-path --bin)"
 
-# Vendored change: sim/monkeydo logs go to the host-mounted cache dir, keyed
+# Sim/monkeydo logs go to the host-mounted cache dir, keyed
 # by container name, so they are readable from the host and survive the
 # container. Falls back to /tmp when the mount is absent.
 LOG_DIR="$HOME/.cache/garmin-dev"
@@ -102,7 +101,7 @@ start_sim_if_needed() {
 }
 start_sim_if_needed
 
-# Vendored change: one attached monkeydo at a time; stacked ones from
+# One attached monkeydo at a time; stacked ones from
 # previous runs accumulate (the loaded app keeps running without its
 # monkeydo).
 pkill -f "monkeydodeux.MonkeyDoDeux" 2>/dev/null || true
@@ -112,7 +111,7 @@ load_app() {
     setsid "$SDKBIN/monkeydo" "$PRG" "$DEVICE" >>"$DO_LOG" 2>&1 </dev/null &
 }
 
-# Vendored change: verify the push actually applied, and recover by
+# Verify the push actually applied, and recover by
 # restarting the sim when it did not. Pushes are unreliable: into a freshly
 # started sim they can die silently (port 1234 opens before the shell
 # handler is ready), and an aged sim can wedge into a state where monkeydo

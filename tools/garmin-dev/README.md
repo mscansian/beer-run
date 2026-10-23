@@ -1,13 +1,12 @@
 # garmin-dev
 
-Docker-based development environment for Garmin Connect IQ watch-face
-projects. It packages the brittle parts of the CIQ toolchain (the
+Docker-based development environment for Garmin Connect IQ projects. It packages the brittle parts of the CIQ toolchain (the
 simulator's webkit2gtk 4.0 dependency, Java, the SDK manager CLI) into a
 pinned image so builds and simulator runs survive host distro upgrades.
 
 ## What it provides
 
-- Compile and package watch faces with `monkeyc` inside the container
+- Compile and package apps with `monkeyc` inside the container
 - Download the Connect IQ SDK and device files in-container using mounted
   Garmin credentials; everything downloaded persists to mounted host dirs
 - Run the CIQ simulator interactively on the host X display and take
@@ -50,10 +49,10 @@ current directory is the project root):
 export PATH="/path/to/garmin-dev/bin:$PATH"   # once, in your shell profile
 
 gd up                                    # start the container
-gd sim fenix843mm                        # build + load the face (starts sim if needed)
+gd sim fr955                             # build + load the app (starts sim if needed)
 make build                               # transparently compiles in-container
-monkeydo bin/app.prg fenix843mm          # loads into the container's sim
-auto-shot.sh -t fenix843mm out.png       # screenshot pipeline
+monkeydo bin/app.prg fr955               # loads into the container's sim
+auto-shot.sh -t fr955 out.png            # screenshot pipeline
 gd shell                                 # interactive shell (--no-display to opt out)
 gd down                                  # stop
 ```

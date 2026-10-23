@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
-# RUNS IN: container (vendored; baked as /usr/local/bin/auto-shot.sh). Run from project root.
-# Fully automated: build a device, (re)launch the simulator, WAIT until the watch
-# face has actually rendered, then screenshot the sim window.
+# RUNS IN: container (baked as /usr/local/bin/auto-shot.sh). Run from project root.
+# Fully automated: build a device, (re)launch the simulator, WAIT until the app
+# has actually rendered, then screenshot the sim window.
 #
 # "Is the device booted yet?" -- the simulator emits no render-complete event
 # (nothing lands in monkeydo.log). But the window itself is the signal: before the
-# app draws, the sim window is static and matches a blank baseline; once the face
-# renders it differs a lot from that baseline, then settles to just the second
-# hand (~0.2% of pixels/sec). So: capture a blank baseline (sim up, app not loaded
+# app draws, the sim window is static and matches a blank baseline; once the app
+# renders it differs a lot from that baseline, then settles to small changes
+# such as a ticking second hand (~0.2% of pixels/sec). So: capture a blank baseline (sim up, app not loaded
 # yet), then poll until a frame differs a lot from the baseline AND is stable vs
 # the previous frame. Frames are normalised to a fixed size before comparing, so
 # it's device-agnostic and never trips ImageMagick's same-size requirement.
 #
 # Usage: ./auto-shot.sh [-t|--transparent] DEVICE [out.png]
 #   (out default: /tmp/ciq-sim.png; -t = transparent background)
-# Vendored change: generic. DEVICE is required; the jungle/app name is
+# DEVICE is required; the jungle/app name is
 # derived from the current dir via resolve_jungle (JUNGLE=<file> overrides).
 set -euo pipefail
-export LC_ALL=C.UTF-8   # vendored change (was C): keep IM fx decimal point AND xprop UTF8 title conversion working; force '.' decimal in ImageMagick fx output
+export LC_ALL=C.UTF-8   # keep IM fx decimal point AND xprop UTF8 title conversion working; force '.' decimal in ImageMagick fx output
 
 SHOT_ARGS=()
 if [ "${1:-}" = "-t" ] || [ "${1:-}" = "--transparent" ]; then SHOT_ARGS+=(--transparent); shift; fi
@@ -25,7 +25,7 @@ DEVICE="${1:?usage: auto-shot.sh [-t] DEVICE [out.png]}"
 OUT="${2:-/tmp/ciq-sim.png}"
 KEY="$HOME/.connectiq/developer_key.der"
 SDKBIN="$("$HOME/go/bin/connect-iq-sdk-manager-cli" sdk current-path --bin)"
-# Vendored change: sim/monkeydo logs to the host-mounted cache dir (see simrun.sh).
+# Sim/monkeydo logs go to the host-mounted cache dir (see simrun.sh).
 LOG_DIR="$HOME/.cache/garmin-dev"
 { [ -d "$LOG_DIR" ] && [ -w "$LOG_DIR" ]; } || LOG_DIR=/tmp
 SIM_LOG="$LOG_DIR/$(hostname).sim.log"
@@ -71,14 +71,14 @@ for i in $(seq 1 80); do ss -ltn 2>/dev/null | grep -q ':1234' && break; sleep 0
 for i in $(seq 1 12); do "$(dirname "$0")/screenshot.sh" "$TMP/base.png" >/dev/null 2>&1 && break; sleep 0.5; done
 
 echo ">> load app"
-pkill -f "monkeydodeux.MonkeyDoDeux" 2>/dev/null || true   # vendored: one attached monkeydo at a time
+pkill -f "monkeydodeux.MonkeyDoDeux" 2>/dev/null || true   # one attached monkeydo at a time
 load_app() {
     > "$DO_LOG"
     setsid "$SDKBIN/monkeydo" "$PRG" "$DEVICE" >>"$DO_LOG" 2>&1 </dev/null &
     DO_PID=$!
 }
 load_app
-# Vendored change: the sim here is always freshly started, and a push into a
+# The sim here is always freshly started, and a push into a
 # cold sim can die silently (port opens before the shell handler is ready).
 # A healthy monkeydo stays attached; an early exit means retry.
 for attempt in 1 2; do
@@ -90,7 +90,7 @@ done
 
 # Changed-pixel count between two frames, each normalised to 240x240 first so
 # size never matters. Returns the full count (=100%) if compare fails.
-# Vendored change: `magick compare -metric AE` output is build-dependent (the
+# `magick compare -metric AE` output is build-dependent (the
 # IM7 AppImage is Q16-HDRI: scientific notation, counts scaled by 65535), so
 # compute the changed fraction via a difference composite instead.
 N=57600 # 240*240
