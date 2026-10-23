@@ -112,8 +112,11 @@ class BeerMenu {
 
     function open() as Void {
         var menu = new WatchUi.Menu2({:title => WatchUi.loadResource(Rez.Strings.AppName) as String});
-        menu.addItem(item(Rez.Strings.Undo, null, :undo, Rez.Drawables.MenuUndo));
-        menu.addItem(item(Rez.Strings.Finish, null, :end, Rez.Drawables.MenuEnd));
+        // With no beers there is nothing to undo or save.
+        if (_session.count() > 0) {
+            menu.addItem(item(Rez.Strings.Undo, null, :undo, Rez.Drawables.MenuUndo));
+            menu.addItem(item(Rez.Strings.Finish, null, :end, Rez.Drawables.MenuEnd));
+        }
         menu.addItem(item(Rez.Strings.History, null, :history, Rez.Drawables.MenuHistory));
         menu.addItem(item(Rez.Strings.Size, sizeLabel(_size.value()), :size, Rez.Drawables.MenuSize));
         menu.addItem(item(Rez.Strings.Goal, goalLabel(_goal.value()), :goal, Rez.Drawables.MenuGoal));
@@ -163,7 +166,7 @@ class BeerMenuDelegate extends WatchUi.Menu2InputDelegate {
             _session.undo();
             WatchUi.popView(WatchUi.SLIDE_DOWN);
         } else if (id == :end) {
-            confirm(Rez.Strings.EndConfirm, Rez.Drawables.MenuEnd, Graphics.COLOR_YELLOW, _session.method(:end));
+            confirm(Rez.Strings.EndConfirm, Rez.Drawables.MenuEnd, Graphics.COLOR_YELLOW, method(:finish));
         } else if (id == :history) {
             // The history takes the menu's place, so BACK goes to the page the
             // menu was opened from.
@@ -177,6 +180,23 @@ class BeerMenuDelegate extends WatchUi.Menu2InputDelegate {
             confirm(Rez.Strings.DiscardConfirm, Rez.Drawables.MenuDiscard, Graphics.COLOR_RED,
                 _session.method(:discard));
         }
+    }
+
+    // An empty session is not saved, so it gets no saved alert.
+    function finish() as Void {
+        var saved = _session.count() > 0;
+        _session.end();
+        if (!saved) {
+            return;
+        }
+        if (Attention has :playTone) {
+            Attention.playTone(Attention.TONE_SUCCESS);
+        }
+        if (Attention has :vibrate) {
+            Attention.vibrate([new Attention.VibeProfile(75, 300)]);
+        }
+        var view = new SavedView();
+        WatchUi.pushView(view, new TimedAlertDelegate(view), WatchUi.SLIDE_IMMEDIATE);
     }
 
     // The question takes the menu's place, so answering it goes back to the

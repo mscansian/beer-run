@@ -5,7 +5,8 @@ import Toybox.Time;
 // The beers in the current drinking session. Every change is written to
 // storage right away, so the session survives closing the app or a reboot.
 // A session ends when the user ends it, or once IDLE_SECONDS pass without a
-// beer; either way it moves to the history.
+// beer; either way it moves to the history. The goal belongs to one session,
+// so ending a session with beers in it clears the goal.
 (:glance)
 class BeerSession {
     static const IDLE_SECONDS = 8 * 60 * 60;
@@ -15,12 +16,14 @@ class BeerSession {
     private const TIMES_ONLY_KEY = "beers";
 
     private var _history as BeerHistory;
+    private var _goal as BeerGoal;
     // Oldest first. Each beer is [time, ml]: seconds since the Unix epoch, and
     // its size in ml.
     private var _beers as Array<[Number, Number]>;
 
-    function initialize(history as BeerHistory) {
+    function initialize(history as BeerHistory, goal as BeerGoal) {
         _history = history;
+        _goal = goal;
         var stored = Application.Storage.getValue(STORAGE_KEY);
         _beers = stored != null ? stored as Array<[Number, Number]> : loadTimesOnly();
         // Earlier versions saved beers without a size as 0 ml. They count as
@@ -106,6 +109,9 @@ class BeerSession {
 
     // Throws the session away without saving it to the history.
     function discard() as Void {
+        if (_beers.size() > 0) {
+            _goal.set(null);
+        }
         _beers = [] as Array<[Number, Number]>;
         save();
     }

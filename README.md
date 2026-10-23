@@ -27,16 +27,16 @@ UP and DOWN move through three pages, which loop:
 Hold UP on any page to open the menu. From there you can:
 
 - Undo the last beer.
-- Finish the session and save it to history.
+- Finish the session and save it to history. The watch beeps and shows that it saved.
 - See the history of past sessions.
 - Set the size or the goal.
 - Discard the session without saving.
 
-Finishing and discarding ask you to confirm.
+Finishing and discarding ask you to confirm. Undo and Finish only show up once the session has a beer.
 
 ### Goal and size
 
-The goal is a scroll wheel from 1 to 30. It starts at "No goal". With a goal set, a ring around the edge fills up as you drink and turns red when you go over.
+The goal is a scroll wheel from 1 to 30. Each session starts with "No goal". With a goal set, a ring around the edge fills up as you drink and turns red when you go over.
 
 Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml, half 500 ml, bottle 600 ml or stein 1 L (the German beer hall mug). It starts as a pint.
 

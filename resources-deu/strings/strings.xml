@@ -12,6 +12,7 @@
     <string id="Finish">Beenden</string>
     <string id="History">Verlauf</string>
     <string id="EndConfirm">Session beenden und speichern?</string>
+    <string id="SessionSaved">Session gespeichert</string>
     <string id="Goal">Ziel</string>
     <string id="NoGoal">Kein Ziel</string>
     <string id="Size">Größe</string>
