@@ -163,7 +163,7 @@ class BeerMenuDelegate extends WatchUi.Menu2InputDelegate {
             _session.undo();
             WatchUi.popView(WatchUi.SLIDE_DOWN);
         } else if (id == :end) {
-            confirm(Rez.Strings.EndConfirm, _session.method(:end));
+            confirm(Rez.Strings.EndConfirm, Rez.Drawables.MenuEnd, Graphics.COLOR_YELLOW, _session.method(:end));
         } else if (id == :history) {
             // The history takes the menu's place, so BACK goes to the page the
             // menu was opened from.
@@ -174,14 +174,16 @@ class BeerMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :size) {
             pushSizeMenu();
         } else if (id == :discard) {
-            confirm(Rez.Strings.DiscardConfirm, _session.method(:discard));
+            confirm(Rez.Strings.DiscardConfirm, Rez.Drawables.MenuDiscard, Graphics.COLOR_RED,
+                _session.method(:discard));
         }
     }
 
-    private function confirm(question as ResourceId, action as Method() as Void) as Void {
-        WatchUi.switchToView(
-            new WatchUi.Confirmation(WatchUi.loadResource(question) as String),
-            new ConfirmActionDelegate(action),
+    // The question takes the menu's place, so answering it goes back to the
+    // page the menu was opened from.
+    private function confirm(question as ResourceId, icon as ResourceId, yesColor as Graphics.ColorType,
+        action as Method() as Void) as Void {
+        WatchUi.switchToView(new ConfirmView(question, icon, yesColor), new ConfirmDelegate(action),
             WatchUi.SLIDE_IMMEDIATE);
     }
 
@@ -214,22 +216,5 @@ class SizeMenuDelegate extends WatchUi.Menu2InputDelegate {
         // opened from.
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         WatchUi.popView(WatchUi.SLIDE_DOWN);
-    }
-}
-
-// Runs the action only when the user answers Yes.
-class ConfirmActionDelegate extends WatchUi.ConfirmationDelegate {
-    private var _action as Method() as Void;
-
-    function initialize(action as Method() as Void) {
-        ConfirmationDelegate.initialize();
-        _action = action;
-    }
-
-    function onResponse(response as WatchUi.Confirm) as Boolean {
-        if (response == WatchUi.CONFIRM_YES) {
-            _action.invoke();
-        }
-        return true;
     }
 }
