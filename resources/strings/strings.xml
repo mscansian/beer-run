@@ -18,6 +18,7 @@
     <string id="SizeSmall">Small</string>
     <string id="SizeCan">Can</string>
     <string id="SizePint">Pint</string>
+    <string id="SizeHalf">Half</string>
     <string id="SizeBottle">Bottle</string>
     <string id="SizeMass">Stein</string>
     <string id="Discard">Discard</string>

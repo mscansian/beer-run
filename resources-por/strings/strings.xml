@@ -18,8 +18,9 @@
     <string id="SizeSmall">Long neck</string>
     <string id="SizeCan">Lata</string>
     <string id="SizePint">Pint</string>
+    <string id="SizeHalf">Meio litro</string>
     <string id="SizeBottle">Garrafa</string>
-    <string id="SizeMass">Caneca</string>
+    <string id="SizeMass">Litrão</string>
     <string id="Discard">Descartar</string>
     <string id="DiscardConfirm">Descartar sem salvar?</string>
 

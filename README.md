@@ -8,7 +8,7 @@ A Connect IQ watch app for Garmin Forerunner watches (955 / 955 Solar, 255 / 255
 - Hold UP on any page to open the menu: undo the last beer, finish the session (saves it to history), see the history of past sessions, set a size, set a goal, or discard the session without saving. Finishing and discarding ask you to confirm.
 - A session also ends by itself: after 8 hours without a beer, the next one starts a new session.
 - The goal is a scroll wheel from 1 to 30. It starts at "No goal". With a goal set, a ring around the edge fills up as you drink and turns red when you go over.
-- Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml, bottle 600 ml or stein 1 L (the German beer hall mug). It starts as a pint.
+- Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml, half 500 ml, bottle 600 ml or stein 1 L (the German beer hall mug). It starts as a pint.
 - The glance (not on the Forerunner 55) shows the count, the time since the last beer and, with a goal set, a progress bar. Select the glance to open the app.
 - Everything is saved on the watch, so closing the app does not lose it.
 - The app is in English and Portuguese, following the watch language.
