@@ -5,7 +5,9 @@ import Toybox.Time.Gregorian;
 import Toybox.WatchUi;
 
 // The history page: past sessions, newest first, PER_PAGE at a time. Each
-// session shows as "Fri 18 Oct · 6 beers" over "21:10-01:40 · 2.8 L".
+// session shows as "Fri 18 Oct · 6 beers" over "2.8 L · 4h30m0s · 1:35:04 /L":
+// the volume, the time from the first beer to the last, and the pace in time
+// per litre, in the order a running app lists distance, time and pace.
 class HistoryView extends WatchUi.View {
     static const PER_PAGE = 3;
 
@@ -83,12 +85,10 @@ class HistoryView extends WatchUi.View {
     }
 
     private function sessionDetail(start as Number, end as Number, ml as Number) as String {
-        return clockTime(start) + "-" + clockTime(end) + " · " + litresText(ml);
-    }
-
-    private function clockTime(time as Number) as String {
-        var info = Gregorian.info(new Time.Moment(time), Time.FORMAT_SHORT);
-        return info.hour.format("%02d") + ":" + info.min.format("%02d");
+        var duration = end - start;
+        // A one-beer session lasts no time, which gives no pace.
+        var pace = duration > 0 ? clockDuration((duration * 1000.0 / ml).toNumber()) : "--";
+        return litresText(ml) + " · " + durationText(duration) + " · " + pace + " /L";
     }
 }
 

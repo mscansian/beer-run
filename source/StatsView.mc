@@ -86,18 +86,6 @@ class StatsView extends WatchUi.View {
         dc.drawText(unitX, y, Graphics.FONT_TINY, WatchUi.loadResource(unit) as String,
             Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
-
-    // A duration like a stopwatch shows it: "4:07" under an hour, "1:04:07"
-    // from an hour on.
-    private function clockDuration(seconds as Number) as String {
-        var hours = seconds / 3600;
-        var minutes = (seconds / 60) % 60;
-        var secs = (seconds % 60).format("%02d");
-        if (hours > 0) {
-            return hours + ":" + minutes.format("%02d") + ":" + secs;
-        }
-        return minutes + ":" + secs;
-    }
 }
 
 // UP goes back to the counter, DOWN on to the history.
