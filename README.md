@@ -12,7 +12,7 @@ The app is in English, Portuguese and German, following the watch language.
 
 ### Adding a beer
 
-Press START or double-tap the screen. The watch buzzes, and the screen shows how long ago the last one was.
+Press START on any page, or double-tap the counter. The watch buzzes, and the counter shows how long ago the last one was.
 
 Each beer after the first closes a lap, like pressing LAP on a run. For 5 seconds the watch shows how long the previous beer took and the litres so far, with a ring counting down. START still adds a beer; any other button or a tap closes it early.
 

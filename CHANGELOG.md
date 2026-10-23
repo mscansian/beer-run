@@ -10,6 +10,7 @@ All notable changes to Beer Run are listed here, newest first. The format follow
 
 ### Changed
 
+- START adds a beer on every page, not only on the counter.
 - Finishing a session ends it when you press Finish, so the session time and pace include the last beer. A session that ends after 8 hours without a beer still ends at its last beer.
 
 ## [1.0.0] - 2026-10-22

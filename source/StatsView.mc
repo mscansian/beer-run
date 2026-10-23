@@ -89,14 +89,12 @@ class StatsView extends WatchUi.View {
 }
 
 // UP goes back to the counter, DOWN on to the splits.
-class StatsDelegate extends WatchUi.BehaviorDelegate {
+class StatsDelegate extends PageDelegate {
     private var _session as BeerSession;
-    private var _menu as BeerMenu;
 
-    function initialize(session as BeerSession, menu as BeerMenu) {
-        BehaviorDelegate.initialize();
+    function initialize(session as BeerSession, menu as BeerMenu, addBeer as Method() as Void) {
+        PageDelegate.initialize(menu, addBeer);
         _session = session;
-        _menu = menu;
     }
 
     function onPreviousPage() as Boolean {
@@ -105,12 +103,7 @@ class StatsDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onNextPage() as Boolean {
-        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu), WatchUi.SLIDE_UP);
-        return true;
-    }
-
-    function onMenu() as Boolean {
-        _menu.open();
+        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu, _addBeer), WatchUi.SLIDE_UP);
         return true;
     }
 }

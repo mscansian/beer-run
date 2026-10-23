@@ -5,34 +5,21 @@ import Toybox.System;
 import Toybox.Time;
 import Toybox.WatchUi;
 
-// START (or a double tap) adds a beer. DOWN and UP move through the pages: counter,
-// stats, splits, damage, and around again. MENU (hold UP) opens the menu from any page.
-class BeerDelegate extends WatchUi.BehaviorDelegate {
+// The counter page. A double tap adds a beer here too. DOWN and UP move
+// through the pages: counter, stats, splits, damage, and around again.
+class BeerDelegate extends PageDelegate {
     // The longest gap between two taps that still counts as a double tap.
     private const DOUBLE_TAP_MS = 400;
 
     private var _session as BeerSession;
     private var _size as BeerSize;
-    private var _menu as BeerMenu;
     // When the last single tap happened, in System.getTimer() milliseconds.
     private var _lastTapAt as Number?;
 
     function initialize(session as BeerSession, history as BeerHistory, goal as BeerGoal, size as BeerSize) {
-        BehaviorDelegate.initialize();
+        PageDelegate.initialize(new BeerMenu(session, history, goal, size), method(:addBeer));
         _session = session;
         _size = size;
-        _menu = new BeerMenu(session, history, goal, size);
-    }
-
-    // The select behavior runs before onKey and onTap and fires for both START
-    // and a tap, so it can't tell them apart. With no onSelect here, START
-    // arrives as KEY_ENTER and a tap arrives in onTap.
-    function onKey(event as WatchUi.KeyEvent) as Boolean {
-        if (event.getKey() == WatchUi.KEY_ENTER) {
-            addBeer();
-            return true;
-        }
-        return false;
     }
 
     // A single tap does nothing, so brushing the screen doesn't add a beer.
@@ -68,7 +55,7 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onNextPage() as Boolean {
-        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu), WatchUi.SLIDE_UP);
+        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu, _addBeer), WatchUi.SLIDE_UP);
         return true;
     }
 
@@ -76,14 +63,11 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
     // Stats and splits go on the stack under it, so UP keeps going backwards
     // through the pages to the counter.
     function onPreviousPage() as Boolean {
-        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu), WatchUi.SLIDE_IMMEDIATE);
-        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu), WatchUi.SLIDE_IMMEDIATE);
-        WatchUi.pushView(new DamageView(_session), new DamageDelegate(_menu), WatchUi.SLIDE_DOWN);
-        return true;
-    }
-
-    function onMenu() as Boolean {
-        _menu.open();
+        WatchUi.pushView(new StatsView(_session), new StatsDelegate(_session, _menu, _addBeer),
+            WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.pushView(new SplitsView(_session), new SplitsDelegate(_session, _menu, _addBeer),
+            WatchUi.SLIDE_IMMEDIATE);
+        WatchUi.pushView(new DamageView(_session), new DamageDelegate(_menu, _addBeer), WatchUi.SLIDE_DOWN);
         return true;
     }
 }

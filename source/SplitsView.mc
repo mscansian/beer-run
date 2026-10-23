@@ -98,14 +98,12 @@ class SplitsView extends WatchUi.View {
 }
 
 // UP goes back to the stats, DOWN on to the damage page.
-class SplitsDelegate extends WatchUi.BehaviorDelegate {
+class SplitsDelegate extends PageDelegate {
     private var _session as BeerSession;
-    private var _menu as BeerMenu;
 
-    function initialize(session as BeerSession, menu as BeerMenu) {
-        BehaviorDelegate.initialize();
+    function initialize(session as BeerSession, menu as BeerMenu, addBeer as Method() as Void) {
+        PageDelegate.initialize(menu, addBeer);
         _session = session;
-        _menu = menu;
     }
 
     function onPreviousPage() as Boolean {
@@ -114,12 +112,7 @@ class SplitsDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onNextPage() as Boolean {
-        WatchUi.pushView(new DamageView(_session), new DamageDelegate(_menu), WatchUi.SLIDE_UP);
-        return true;
-    }
-
-    function onMenu() as Boolean {
-        _menu.open();
+        WatchUi.pushView(new DamageView(_session), new DamageDelegate(_menu, _addBeer), WatchUi.SLIDE_UP);
         return true;
     }
 }

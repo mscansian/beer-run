@@ -152,12 +152,9 @@ class DamageView extends WatchUi.View {
 
 // UP goes back to the splits. DOWN wraps around to the counter, which sits
 // under the stats and splits pages on the view stack.
-class DamageDelegate extends WatchUi.BehaviorDelegate {
-    private var _menu as BeerMenu;
-
-    function initialize(menu as BeerMenu) {
-        BehaviorDelegate.initialize();
-        _menu = menu;
+class DamageDelegate extends PageDelegate {
+    function initialize(menu as BeerMenu, addBeer as Method() as Void) {
+        PageDelegate.initialize(menu, addBeer);
     }
 
     function onPreviousPage() as Boolean {
@@ -169,11 +166,6 @@ class DamageDelegate extends WatchUi.BehaviorDelegate {
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         WatchUi.popView(WatchUi.SLIDE_UP);
-        return true;
-    }
-
-    function onMenu() as Boolean {
-        _menu.open();
         return true;
     }
 }
