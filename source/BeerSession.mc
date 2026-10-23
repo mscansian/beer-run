@@ -10,8 +10,9 @@ typedef Beer as [Number, Number, Number];
 // storage right away, so the session survives closing the app or a reboot.
 // A session ends when the user ends it, or once IDLE_SECONDS pass without a
 // beer; either way it moves to the history. The goal belongs to one session,
-// so ending a session with beers in it clears the goal. The last finished
-// session is also kept on its own, because its alcohol outlives it.
+// so ending a session with beers in it clears the goal. The beers of the
+// last finished session are also saved on their own, since the history keeps
+// only totals.
 (:glance)
 class BeerSession {
     static const IDLE_SECONDS = 8 * 60 * 60;
@@ -55,12 +56,6 @@ class BeerSession {
     // Oldest first.
     function beers() as Array<Beer> {
         return _beers;
-    }
-
-    // The beers of the session finished most recently, oldest first.
-    function finishedBeers() as Array<Beer> {
-        var stored = Application.Storage.getValue(FINISHED_KEY) as Array<Beer>?;
-        return stored != null ? stored : [] as Array<Beer>;
     }
 
     function count() as Number {

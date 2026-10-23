@@ -7,10 +7,7 @@ import Toybox.Timer;
 import Toybox.WatchUi;
 
 // The damage page: when you will probably be sober, and how many km you would
-// have to run to burn off the beer. It shows the current session, or after
-// Finish the finished one until its sober time passes. The sober time counts
-// the beers of both, since the alcohol of the finished session can still be
-// there.
+// have to run to burn off the beer, for the current session.
 class DamageView extends WatchUi.View {
     private const KM_PER_MILE = 1.609344;
     private const MAX_SOBER_SECONDS = 24 * 60 * 60;
@@ -56,21 +53,9 @@ class DamageView extends WatchUi.View {
         }
 
         var now = Time.now().value();
-        var current = _session.beers();
-        var finished = _session.finishedBeers();
-        var allBeers = [] as Array<Beer>;
-        allBeers.addAll(finished);
-        allBeers.addAll(current);
-        var soberAt = BloodAlcohol.soberAt(body, allBeers);
-
-        // The session the beer debt is about.
-        var beers = null as Array<Beer>?;
-        if (current.size() > 0) {
-            beers = current;
-        } else if (finished.size() > 0 && soberAt != null && soberAt > now) {
-            beers = finished;
-        }
-        if (beers == null || soberAt == null) {
+        var beers = _session.beers();
+        var soberAt = BloodAlcohol.soberAt(body, beers);
+        if (soberAt == null) {
             drawMessage(dc, Rez.Strings.DamageEmpty);
             return;
         }
