@@ -4,16 +4,49 @@ A Connect IQ watch app for Garmin Forerunner watches (955 / 955 Solar, 255 / 255
 
 <img src="docs/screenshot.png" alt="Beer Run on a Forerunner 955: 3 beers toward a goal of 4, last one just now" width="300">
 
-- Press START (or double-tap the screen) to add a beer. The watch buzzes, and the screen shows how long ago the last one was.
-- Each beer after the first closes a lap, like pressing LAP on a run: for 5 seconds the watch shows how long the previous beer took and the litres so far, with a ring counting down. START still adds a beer; any other button or a tap closes it early.
-- UP and DOWN move through three pages, which loop: the counter, stats for the current session laid out like a running app (a live timer, litres, beers, and the pace in time per litre), and splits (the last few beers with how long each took, and the average).
-- Hold UP on any page to open the menu: undo the last beer, finish the session (saves it to history), see the history of past sessions, set a size, set a goal, or discard the session without saving. Finishing and discarding ask you to confirm.
-- A session also ends by itself: after 8 hours without a beer, the next one starts a new session.
-- The goal is a scroll wheel from 1 to 30. It starts at "No goal". With a goal set, a ring around the edge fills up as you drink and turns red when you go over.
-- Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml, half 500 ml, bottle 600 ml or stein 1 L (the German beer hall mug). It starts as a pint.
-- The glance (not on the Forerunner 55) shows the count, the time since the last beer and, with a goal set, a progress bar. Select the glance to open the app.
-- Everything is saved on the watch, so closing the app does not lose it.
-- The app is in English, Portuguese and German, following the watch language.
+The app is in English, Portuguese and German, following the watch language.
+
+## Using the app
+
+### Adding a beer
+
+Press START or double-tap the screen. The watch buzzes, and the screen shows how long ago the last one was.
+
+Each beer after the first closes a lap, like pressing LAP on a run. For 5 seconds the watch shows how long the previous beer took and the litres so far, with a ring counting down. START still adds a beer; any other button or a tap closes it early.
+
+### Pages
+
+UP and DOWN move through three pages, which loop:
+
+1. Counter: the beer count and the time since the last one.
+2. Stats: the current session laid out like a running app, with a live timer, litres, beers, and the pace in time per litre.
+3. Splits: the last few beers with how long each took, and the average.
+
+### Menu
+
+Hold UP on any page to open the menu. From there you can:
+
+- Undo the last beer.
+- Finish the session and save it to history.
+- See the history of past sessions.
+- Set the size or the goal.
+- Discard the session without saving.
+
+Finishing and discarding ask you to confirm.
+
+### Goal and size
+
+The goal is a scroll wheel from 1 to 30. It starts at "No goal". With a goal set, a ring around the edge fills up as you drink and turns red when you go over.
+
+Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml, half 500 ml, bottle 600 ml or stein 1 L (the German beer hall mug). It starts as a pint.
+
+### Sessions
+
+Everything is saved on the watch, so closing the app does not lose it. A session ends when you finish it from the menu, or by itself after 8 hours without a beer: the next beer then starts a new session.
+
+### Glance
+
+The glance shows the count, the time since the last beer and, with a goal set, a progress bar. Select it to open the app. The Forerunner 55 has no glance.
 
 ## Quickstart
 
