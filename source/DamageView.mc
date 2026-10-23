@@ -13,6 +13,7 @@ import Toybox.WatchUi;
 // there.
 class DamageView extends WatchUi.View {
     private const KM_PER_MILE = 1.609344;
+    private const MAX_SOBER_SECONDS = 24 * 60 * 60;
 
     private var _session as BeerSession;
     // Redraws so the time left stays current.
@@ -79,18 +80,29 @@ class DamageView extends WatchUi.View {
         dc.drawLine(0, divider, width, divider);
 
         drawLabel(dc, centerX, height * 14 / 100, Rez.Strings.DamageSober);
-        var clock = clockTime(soberAt);
-        drawValue(dc, centerX, height * 27 / 100, clock[0], clock[1]);
-        if (soberAt > now) {
+        var soberLine = null as String?;
+        // A day out, the drinker is far past the levels the estimate holds
+        // for, so the page gives no time.
+        if (soberAt - now > MAX_SOBER_SECONDS) {
+            drawValue(dc, centerX, height * 27 / 100, "+", (MAX_SOBER_SECONDS / 3600).toString(), "h");
+            soberLine = WatchUi.loadResource(Rez.Strings.DamageNotSoon) as String;
+        } else {
+            var clock = clockTime(soberAt);
+            drawValue(dc, centerX, height * 27 / 100, null, clock[0], clock[1]);
+            if (soberAt > now) {
+                soberLine = timeLeftText(soberAt - now);
+            }
+        }
+        if (soberLine != null) {
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, height * 40 / 100, Graphics.FONT_XTINY, timeLeftText(soberAt - now),
+            dc.drawText(centerX, height * 40 / 100, Graphics.FONT_XTINY, soberLine,
                 Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
 
         var km = BeerDebt.km(body, beers);
         var inMiles = System.getDeviceSettings().distanceUnits == System.UNIT_STATUTE;
         drawLabel(dc, centerX, height * 56 / 100, Rez.Strings.DamageDebt);
-        drawValue(dc, centerX, height * 68 / 100, (inMiles ? km / KM_PER_MILE : km).format("%.1f"),
+        drawValue(dc, centerX, height * 68 / 100, null, (inMiles ? km / KM_PER_MILE : km).format("%.1f"),
             inMiles ? "mi" : "km");
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(centerX, height * 81 / 100, Graphics.FONT_XTINY,
@@ -135,15 +147,21 @@ class DamageView extends WatchUi.View {
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
-    // A centred number with an optional unit just right of it. The number
-    // fonts have no letters, so the unit uses a text font.
-    private function drawValue(dc as Graphics.Dc, x as Number, y as Number, value as String,
+    // A centred number with an optional sign just left of it and an optional
+    // unit just right of it. The number fonts have only digits, so the sign
+    // and the unit use text fonts.
+    private function drawValue(dc as Graphics.Dc, x as Number, y as Number, sign as String?, value as String,
         unit as String?) as Void {
         dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, Graphics.FONT_NUMBER_MEDIUM, value,
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        var halfWidth = dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MEDIUM) / 2;
+        if (sign != null) {
+            dc.drawText(x - halfWidth - 4, y, Graphics.FONT_MEDIUM, sign,
+                Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER);
+        }
         if (unit != null) {
-            var unitX = x + dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MEDIUM) / 2 + 4;
+            var unitX = x + halfWidth + 4;
             dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
             dc.drawText(unitX, y, Graphics.FONT_TINY, unit, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         }

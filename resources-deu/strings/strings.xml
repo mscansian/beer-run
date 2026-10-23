@@ -44,6 +44,7 @@
     <string id="DamageSober">NÜCHTERN GEGEN</string>
     <string id="DamageInMinutes">in $1$ Min.</string>
     <string id="DamageInHours">in $1$h$2$</string>
+    <string id="DamageNotSoon">Heute nicht mehr</string>
     <string id="DamageDebt">BIERSCHULDEN</string>
     <string id="DamageEmpty">Noch kein Bier</string>
     <string id="DamageNoProfile">Gewicht und Größe auf der Uhr einstellen</string>

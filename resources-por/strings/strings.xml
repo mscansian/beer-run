@@ -44,6 +44,7 @@
     <string id="DamageSober">SÓBRIO LÁ PELAS</string>
     <string id="DamageInMinutes">em $1$ min</string>
     <string id="DamageInHours">em $1$h$2$</string>
+    <string id="DamageNotSoon">Não tão cedo</string>
     <string id="DamageDebt">CONTA DO BAR</string>
     <string id="DamageEmpty">Nenhuma cerveja ainda</string>
     <string id="DamageNoProfile">Defina peso e altura no relógio</string>

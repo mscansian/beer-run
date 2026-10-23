@@ -44,6 +44,7 @@
     <string id="DamageSober">SOBER AROUND</string>
     <string id="DamageInMinutes">in $1$ min</string>
     <string id="DamageInHours">in $1$h$2$</string>
+    <string id="DamageNotSoon">Not anytime soon</string>
     <string id="DamageDebt">BEER DEBT</string>
     <string id="DamageEmpty">No beers yet</string>
     <string id="DamageNoProfile">Set your weight and height on the watch</string>
