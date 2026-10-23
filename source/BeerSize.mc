@@ -41,7 +41,7 @@ function sizeName(ml as Number) as String {
         case 600:
             return WatchUi.loadResource(Rez.Strings.SizeBottle) as String;
         case 1000:
-            return WatchUi.loadResource(Rez.Strings.SizeMass) as String;
+            return WatchUi.loadResource(Rez.Strings.SizeLitre) as String;
     }
     return ml + " ml";
 }

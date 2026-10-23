@@ -20,7 +20,7 @@
     <string id="SizePint">Pint</string>
     <string id="SizeHalf">Half</string>
     <string id="SizeBottle">Bottle</string>
-    <string id="SizeMass">Stein</string>
+    <string id="SizeLitre">Stein</string>
     <string id="Discard">Discard</string>
     <string id="DiscardConfirm">Discard without saving?</string>
 
