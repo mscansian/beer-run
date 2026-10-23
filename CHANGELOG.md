@@ -4,6 +4,8 @@ All notable changes to Beer Run are listed here, newest first. The format follow
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-23
+
 ### Added
 
 - A damage page after Splits: when you will probably be sober, and your beer debt, the km you would have to run to burn off the beer. It uses your weight, height, age and gender from the watch, so the app now asks for access to your user profile.
@@ -18,5 +20,6 @@ All notable changes to Beer Run are listed here, newest first. The format follow
 
 First release.
 
-[Unreleased]: https://github.com/mscansian/beer-run/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/mscansian/beer-run/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/mscansian/beer-run/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/mscansian/beer-run/releases/tag/v1.0.0
