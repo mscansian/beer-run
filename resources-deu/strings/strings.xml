@@ -1,0 +1,42 @@
+<strings>
+    <string id="AppName" scope="glance">Beer Run</string>
+    <string id="Beer" scope="glance">Bier</string>
+    <string id="Beers" scope="glance">Biere</string>
+    <string id="Hint">START +1</string>
+    <string id="GoalOf">Ziel $1$</string>
+    <string id="LastJustNow" scope="glance">letztes gerade eben</string>
+    <string id="LastMinutes" scope="glance">letztes vor $1$ Min.</string>
+    <string id="LastHours" scope="glance">letztes vor $1$h$2$</string>
+
+    <string id="Undo">Zurück</string>
+    <string id="Finish">Beenden</string>
+    <string id="History">Verlauf</string>
+    <string id="EndConfirm">Session beenden und speichern?</string>
+    <string id="Goal">Ziel</string>
+    <string id="NoGoal">Kein Ziel</string>
+    <string id="Size">Größe</string>
+    <string id="SizeSmall">Klein</string>
+    <string id="SizeCan">Dose</string>
+    <string id="SizePint">Pint</string>
+    <string id="SizeHalf">Halbe</string>
+    <string id="SizeBottle">Flasche</string>
+    <string id="SizeLitre">Maß</string>
+    <string id="Discard">Verwerfen</string>
+    <string id="DiscardConfirm">Ohne Speichern verwerfen?</string>
+
+    <string id="StatTimer">ZEIT</string>
+    <string id="StatLitres">LITER</string>
+    <string id="StatBeers">BIERE</string>
+    <string id="StatPace">PACE</string>
+    <string id="PerLitre">/L</string>
+
+    <string id="Lap">RUNDE $1$</string>
+    <string id="LapTime">RUNDENZEIT</string>
+
+    <string id="Splits">RUNDEN</string>
+    <string id="SplitsEmpty">Noch keine Runden</string>
+    <string id="SplitsAverage">Schnitt $1$</string>
+
+    <string id="HistoryTitle">VERLAUF</string>
+    <string id="HistoryEmpty">Noch keine Sessions</string>
+</strings>

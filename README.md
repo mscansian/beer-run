@@ -11,7 +11,7 @@ A Connect IQ watch app for Garmin Forerunner watches (955 / 955 Solar, 255 / 255
 - Every beer counts as the current size: small 330 ml, can 350 ml, pint 473 ml, half 500 ml, bottle 600 ml or stein 1 L (the German beer hall mug). It starts as a pint.
 - The glance (not on the Forerunner 55) shows the count, the time since the last beer and, with a goal set, a progress bar. Select the glance to open the app.
 - Everything is saved on the watch, so closing the app does not lose it.
-- The app is in English and Portuguese, following the watch language.
+- The app is in English, Portuguese and German, following the watch language.
 
 ## Quickstart
 

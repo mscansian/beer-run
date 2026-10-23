@@ -13,6 +13,7 @@
         <iq:languages>
             <iq:language>eng</iq:language>
             <iq:language>por</iq:language>
+            <iq:language>deu</iq:language>
         </iq:languages>
         <iq:barrels/>
     </iq:application>
