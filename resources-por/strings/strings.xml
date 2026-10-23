@@ -1,0 +1,41 @@
+<strings>
+    <string id="AppName" scope="glance">Beer Run</string>
+    <string id="Beer" scope="glance">cerveja</string>
+    <string id="Beers" scope="glance">cervejas</string>
+    <string id="Hint">START +1</string>
+    <string id="GoalOf">meta $1$</string>
+    <string id="LastJustNow" scope="glance">última agora mesmo</string>
+    <string id="LastMinutes" scope="glance">última há $1$ min</string>
+    <string id="LastHours" scope="glance">última há $1$h$2$</string>
+
+    <string id="Undo">Desfazer</string>
+    <string id="Finish">Finalizar</string>
+    <string id="History">Histórico</string>
+    <string id="EndConfirm">Finalizar e salvar esta sessão?</string>
+    <string id="Goal">Meta</string>
+    <string id="NoGoal">Sem meta</string>
+    <string id="Size">Tamanho</string>
+    <string id="SizeSmall">Long neck</string>
+    <string id="SizeCan">Lata</string>
+    <string id="SizePint">Pint</string>
+    <string id="SizeBottle">Garrafa</string>
+    <string id="SizeMass">Caneca</string>
+    <string id="Discard">Descartar</string>
+    <string id="DiscardConfirm">Descartar sem salvar?</string>
+
+    <string id="StatTimer">TEMPO</string>
+    <string id="StatLitres">LITROS</string>
+    <string id="StatBeers">CERVEJAS</string>
+    <string id="StatPace">RITMO</string>
+    <string id="PerLitre">/L</string>
+
+    <string id="Lap">VOLTA $1$</string>
+    <string id="LapTime">TEMPO DA VOLTA</string>
+
+    <string id="Splits">PARCIAIS</string>
+    <string id="SplitsEmpty">Nenhuma volta ainda</string>
+    <string id="SplitsAverage">média $1$</string>
+
+    <string id="HistoryTitle">HISTÓRICO</string>
+    <string id="HistoryEmpty">Nenhuma sessão ainda</string>
+</strings>

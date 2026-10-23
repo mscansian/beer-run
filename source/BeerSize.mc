@@ -5,7 +5,7 @@ import Toybox.WatchUi;
 // The size in ml that each new beer is counted as. It starts as a pint.
 (:glance)
 class BeerSize {
-    static const OPTIONS = [330, 350, 473, 600] as Array<Number>;
+    static const OPTIONS = [330, 350, 473, 600, 1000] as Array<Number>;
     static const PINT = 473;
 
     private const STORAGE_KEY = "size";
@@ -38,6 +38,8 @@ function sizeName(ml as Number) as String {
             return WatchUi.loadResource(Rez.Strings.SizePint) as String;
         case 600:
             return WatchUi.loadResource(Rez.Strings.SizeBottle) as String;
+        case 1000:
+            return WatchUi.loadResource(Rez.Strings.SizeMass) as String;
     }
     return ml + " ml";
 }

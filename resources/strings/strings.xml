@@ -19,6 +19,7 @@
     <string id="SizeCan">Can</string>
     <string id="SizePint">Pint</string>
     <string id="SizeBottle">Bottle</string>
+    <string id="SizeMass">Stein</string>
     <string id="Discard">Discard</string>
     <string id="DiscardConfirm">Discard without saving?</string>
 
