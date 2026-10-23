@@ -80,9 +80,11 @@ class BeerSession {
         return lastAt != null && Time.now().subtract(lastAt).value() >= IDLE_SECONDS;
     }
 
+    // Nothing records when the user stopped drinking, so an idle session ends
+    // at its last beer.
     function endIfIdle() as Void {
         if (isIdle()) {
-            end();
+            endAt(_beers[_beers.size() - 1][0]);
         }
     }
 
@@ -99,10 +101,15 @@ class BeerSession {
         }
     }
 
-    // Moves the session to the history and starts an empty one.
+    // Finishes the session now: moves it to the history and starts an empty one.
     function end() as Void {
+        endAt(Time.now().value());
+    }
+
+    // `end` is in seconds since the Unix epoch.
+    private function endAt(end as Number) as Void {
         if (_beers.size() > 0) {
-            _history.add(_beers[0][0], _beers[_beers.size() - 1][0], _beers.size(), totalMl());
+            _history.add(_beers[0][0], end, _beers.size(), totalMl());
         }
         discard();
     }

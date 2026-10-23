@@ -6,7 +6,7 @@ import Toybox.WatchUi;
 
 // The history page: past sessions, newest first, PER_PAGE at a time. Each
 // session shows as "Fri 18 Oct · 6 beers" over "2.8 L · 4h30m0s · 1:35:04 /L":
-// the volume, the time from the first beer to the last, and the pace in time
+// the volume, the time from the first beer to the end, and the pace in time
 // per litre, in the order a running app lists distance, time and pace.
 class HistoryView extends WatchUi.View {
     static const PER_PAGE = 3;
