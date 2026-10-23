@@ -2,6 +2,8 @@
 
 A Connect IQ watch app for Garmin Forerunner watches (955 / 955 Solar, 255 / 255S and their Music versions, and 55) that counts the beers in a drinking session.
 
+<a href="https://apps.garmin.com/en-US/apps/b6925eb7-3824-4fe2-8256-acb0e89ff6e6"><img src="docs/connect-iq-badge.svg" alt="Available on the Connect IQ Store" height="60"></a>
+
 <img src="docs/screenshot.png" alt="Beer Run on a Forerunner 955: 3 beers toward a goal of 4, last one just now" width="300">
 
 The app is in English, Portuguese and German, following the watch language.
