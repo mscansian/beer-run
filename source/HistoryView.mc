@@ -83,8 +83,7 @@ class HistoryView extends WatchUi.View {
     }
 
     private function sessionDetail(start as Number, end as Number, ml as Number) as String {
-        var detail = clockTime(start) + "-" + clockTime(end);
-        return ml > 0 ? detail + " · " + litresText(ml) : detail;
+        return clockTime(start) + "-" + clockTime(end) + " · " + litresText(ml);
     }
 
     private function clockTime(time as Number) as String {
@@ -98,10 +97,17 @@ class HistoryView extends WatchUi.View {
 // sits under the stats page on the view stack.
 class HistoryDelegate extends WatchUi.BehaviorDelegate {
     private var _view as HistoryView;
+    private var _menu as BeerMenu;
 
-    function initialize(view as HistoryView) {
+    function initialize(view as HistoryView, menu as BeerMenu) {
         BehaviorDelegate.initialize();
         _view = view;
+        _menu = menu;
+    }
+
+    function onMenu() as Boolean {
+        _menu.open();
+        return true;
     }
 
     function onNextPage() as Boolean {

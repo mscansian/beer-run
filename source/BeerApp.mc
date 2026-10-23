@@ -15,13 +15,13 @@ class BeerApp extends Application.AppBase {
         // Opening the app the day after shows an empty session, with the
         // previous one already in the history.
         session.endIfIdle();
-        var limit = new BeerLimit();
+        var goal = new BeerGoal();
         var size = new BeerSize();
-        return [new BeerView(session, limit), new BeerDelegate(session, history, limit, size)];
+        return [new BeerView(session, goal), new BeerDelegate(session, history, goal, size)];
     }
 
     (:glance)
     function getGlanceView() as [WatchUi.GlanceView] or [WatchUi.GlanceView, WatchUi.GlanceViewDelegate] or Null {
-        return [new BeerGlanceView(new BeerSession(new BeerHistory()), new BeerLimit())];
+        return [new BeerGlanceView(new BeerSession(new BeerHistory()), new BeerGoal())];
     }
 }

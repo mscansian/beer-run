@@ -16,13 +16,20 @@ class BeerSession {
 
     private var _history as BeerHistory;
     // Oldest first. Each beer is [time, ml]: seconds since the Unix epoch, and
-    // its size in ml, or 0 when size tracking was off.
+    // its size in ml.
     private var _beers as Array<[Number, Number]>;
 
     function initialize(history as BeerHistory) {
         _history = history;
         var stored = Application.Storage.getValue(STORAGE_KEY);
         _beers = stored != null ? stored as Array<[Number, Number]> : loadTimesOnly();
+        // Earlier versions saved beers without a size as 0 ml. They count as
+        // pints.
+        for (var i = 0; i < _beers.size(); i++) {
+            if (_beers[i][1] == 0) {
+                _beers[i][1] = BeerSize.PINT;
+            }
+        }
     }
 
     function count() as Number {
@@ -98,7 +105,7 @@ class BeerSession {
         var beers = [] as Array<[Number, Number]>;
         if (times != null) {
             for (var i = 0; i < times.size(); i++) {
-                beers.add([times[i], 0]);
+                beers.add([times[i], BeerSize.PINT]);
             }
         }
         return beers;

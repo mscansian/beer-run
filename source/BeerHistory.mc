@@ -10,7 +10,7 @@ class BeerHistory {
 
     // Each entry is [start, end, count, ml]: the times of the first and last
     // beer in seconds since the Unix epoch, the number of beers, and the total
-    // volume in ml (0 when size tracking was off).
+    // volume in ml.
     private var _entries as Array<[Number, Number, Number, Number]>;
 
     function initialize() {
@@ -18,6 +18,13 @@ class BeerHistory {
         _entries = stored != null
             ? stored as Array<[Number, Number, Number, Number]>
             : [] as Array<[Number, Number, Number, Number]>;
+        // Earlier versions saved sessions without sizes as 0 ml. Their beers
+        // count as pints.
+        for (var i = 0; i < _entries.size(); i++) {
+            if (_entries[i][3] == 0) {
+                _entries[i][3] = _entries[i][2] * BeerSize.PINT;
+            }
+        }
     }
 
     function entries() as Array<[Number, Number, Number, Number]> {

@@ -2,30 +2,28 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-// The size in ml that each new beer is counted as, or null when size tracking
-// is off.
+// The size in ml that each new beer is counted as. It starts as a pint.
+(:glance)
 class BeerSize {
     static const OPTIONS = [330, 350, 473, 600] as Array<Number>;
+    static const PINT = 473;
 
     private const STORAGE_KEY = "size";
 
-    private var _ml as Number?;
+    private var _ml as Number;
 
     function initialize() {
-        _ml = Application.Storage.getValue(STORAGE_KEY) as Number?;
+        var stored = Application.Storage.getValue(STORAGE_KEY) as Number?;
+        _ml = stored != null ? stored : PINT;
     }
 
-    function value() as Number? {
+    function value() as Number {
         return _ml;
     }
 
-    function set(ml as Number?) as Void {
+    function set(ml as Number) as Void {
         _ml = ml;
-        if (ml == null) {
-            Application.Storage.deleteValue(STORAGE_KEY);
-        } else {
-            Application.Storage.setValue(STORAGE_KEY, ml);
-        }
+        Application.Storage.setValue(STORAGE_KEY, ml);
     }
 }
 
@@ -44,11 +42,8 @@ function sizeName(ml as Number) as String {
     return ml + " ml";
 }
 
-// The menu label of a size, e.g. "Pint 473 ml", or "Off".
-function sizeLabel(ml as Number?) as String {
-    if (ml == null) {
-        return WatchUi.loadResource(Rez.Strings.SizeOff) as String;
-    }
+// The menu label of a size, e.g. "Pint 473 ml".
+function sizeLabel(ml as Number) as String {
     return sizeName(ml) + " " + ml + " ml";
 }
 

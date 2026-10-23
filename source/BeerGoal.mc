@@ -1,11 +1,12 @@
 import Toybox.Application;
 import Toybox.Lang;
 
-// The most beers the user wants in a session, or null for no limit.
+// How many beers the user aims for in a session, or null for no goal.
 (:glance)
-class BeerLimit {
+class BeerGoal {
     static const MAX = 30;
 
+    // The goal used to be called the limit, and is still saved under that name.
     private const STORAGE_KEY = "limit";
 
     private var _value as Number?;

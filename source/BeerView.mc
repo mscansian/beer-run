@@ -7,14 +7,14 @@ class BeerView extends WatchUi.View {
     private const ARC_WIDTH = 8;
 
     private var _session as BeerSession;
-    private var _limit as BeerLimit;
+    private var _goal as BeerGoal;
     // Redraws once a minute so "last one X min ago" stays current.
     private var _timer as Timer.Timer?;
 
-    function initialize(session as BeerSession, limit as BeerLimit) {
+    function initialize(session as BeerSession, goal as BeerGoal) {
         View.initialize();
         _session = session;
-        _limit = limit;
+        _goal = goal;
     }
 
     function onShow() as Void {
@@ -39,23 +39,23 @@ class BeerView extends WatchUi.View {
         var height = dc.getHeight();
         var centerX = width / 2;
         var count = _session.count();
-        var limit = _limit.value();
-        var overLimit = limit != null && count > limit;
+        var goal = _goal.value();
+        var overGoal = goal != null && count > goal;
 
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.clear();
 
-        if (limit != null) {
-            drawLimitArc(dc, count, limit);
+        if (goal != null) {
+            drawGoalArc(dc, count, goal);
         }
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        var top = limit != null
-            ? Lang.format(WatchUi.loadResource(Rez.Strings.LimitOf) as String, [limit])
+        var top = goal != null
+            ? Lang.format(WatchUi.loadResource(Rez.Strings.GoalOf) as String, [goal])
             : WatchUi.loadResource(Rez.Strings.Hint) as String;
         dc.drawText(centerX, height / 8, Graphics.FONT_XTINY, top, Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.setColor(overLimit ? Graphics.COLOR_RED : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(overGoal ? Graphics.COLOR_RED : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
         dc.drawText(centerX, height * 9 / 20, Graphics.FONT_NUMBER_THAI_HOT, count.toString(),
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
 
@@ -73,8 +73,8 @@ class BeerView extends WatchUi.View {
     }
 
     // A ring around the edge that fills clockwise from the top as the count
-    // approaches the limit. It turns red once the count goes over.
-    private function drawLimitArc(dc as Graphics.Dc, count as Number, limit as Number) as Void {
+    // approaches the goal. It turns red once the count goes over.
+    private function drawGoalArc(dc as Graphics.Dc, count as Number, goal as Number) as Void {
         var centerX = dc.getWidth() / 2;
         var centerY = dc.getHeight() / 2;
         var radius = centerX - ARC_WIDTH / 2;
@@ -83,12 +83,12 @@ class BeerView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawCircle(centerX, centerY, radius);
 
-        if (count >= limit) {
-            dc.setColor(count > limit ? Graphics.COLOR_RED : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+        if (count >= goal) {
+            dc.setColor(count > goal ? Graphics.COLOR_RED : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
             dc.drawCircle(centerX, centerY, radius);
         } else if (count > 0) {
             dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-            dc.drawArc(centerX, centerY, radius, Graphics.ARC_CLOCKWISE, 90, 90 - 360 * count / limit);
+            dc.drawArc(centerX, centerY, radius, Graphics.ARC_CLOCKWISE, 90, 90 - 360 * count / goal);
         }
 
         dc.setPenWidth(1);
