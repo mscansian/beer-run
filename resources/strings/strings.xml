@@ -27,6 +27,9 @@
     <string id="StatPace">PACE</string>
     <string id="PerLitre">/L</string>
 
+    <string id="Lap">LAP $1$</string>
+    <string id="LapTime">LAP TIME</string>
+
     <string id="History">HISTORY</string>
     <string id="HistoryEmpty">No sessions yet</string>
 </strings>

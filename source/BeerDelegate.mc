@@ -2,6 +2,7 @@ import Toybox.Attention;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
+import Toybox.Time;
 import Toybox.WatchUi;
 
 // START (or a double tap) adds a beer. DOWN and UP move through the pages: counter,
@@ -44,13 +45,24 @@ class BeerDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    private function addBeer() as Void {
+    function addBeer() as Void {
+        // The new beer closes a lap on the previous one, unless the session is
+        // empty or has gone idle, in which case this beer starts a new session.
+        var lastAt = _session.lastAt();
+        var lap = null as LapView?;
+        if (lastAt != null && !_session.isIdle()) {
+            lap = new LapView(_session.count(), Time.now().subtract(lastAt).value(), _session.totalMl());
+        }
         _session.add(_size.value());
         // A short buzz confirms the click without looking at the screen.
         if (Attention has :vibrate) {
             Attention.vibrate([new Attention.VibeProfile(50, 150)]);
         }
-        WatchUi.requestUpdate();
+        if (lap != null) {
+            WatchUi.pushView(lap, new LapDelegate(lap, method(:addBeer)), WatchUi.SLIDE_IMMEDIATE);
+        } else {
+            WatchUi.requestUpdate();
+        }
     }
 
     function onNextPage() as Boolean {

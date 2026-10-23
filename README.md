@@ -3,6 +3,7 @@
 A Connect IQ watch app for Garmin Forerunner watches (955 / 955 Solar, 255 / 255S and their Music versions, and 55) that counts the beers in a drinking session.
 
 - Press START (or double-tap the screen) to add a beer. The watch buzzes, and the screen shows how long ago the last one was.
+- Each beer after the first closes a lap, like pressing LAP on a run: for 5 seconds the watch shows how long the previous beer took and the litres so far, with a ring counting down. START still adds a beer; any other button or a tap closes it early.
 - UP and DOWN move through three pages, which loop: the counter, stats for the current session laid out like a running app (a live timer, litres, beers, and the pace in time per litre), and the history of past sessions.
 - Hold UP on any page to open the menu: undo the last beer, finish the session (saves it to history), set a size, set a goal, or discard the session without saving. Finishing and discarding ask you to confirm.
 - A session also ends by itself: after 8 hours without a beer, the next one starts a new session.
